@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using PlainApiGateway.Configuration;
+using PlainApiGateway.Handler;
 using PlainApiGateway.Provider;
 using PlainApiGateway.Repository;
 using PlainApiGateway.Wrappers;
@@ -29,6 +30,10 @@ namespace PlainApiGateway.Extension
             RegisterConfigurationRepository(services, plainConfiguration);
 
             services.AddHttpClient();
+
+            services.AddLogging();
+
+            services.AddTransient<IErrorHandler, ErrorHandler>();
 
             services.AddTransient<IHttpRequestProvider, HttpRequestProvider>();
             services.AddTransient<IHttpClientWrapper, HttpClientWrapper>();

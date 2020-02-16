@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
@@ -23,7 +24,17 @@ namespace PlainApiGateway.Provider
             var route = configuration.Routes
                 .FirstOrDefault(a => a.Source.Path == httpRequest.Path);
 
-            var address = route?.Target.Addresses.FirstOrDefault();
+            if (route == null)
+            {
+                return null;
+            }
+
+            if (!route.Source.HttpMethods.Any(a => string.Equals(a, httpRequest.Method, StringComparison.OrdinalIgnoreCase)))
+            {
+                return null;
+            }
+
+            var address = route.Target.Addresses.FirstOrDefault();
             if (address == null)
             {
                 return null;

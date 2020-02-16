@@ -3,6 +3,7 @@
 using Microsoft.AspNetCore.Http;
 
 using PlainApiGateway.Extension;
+using PlainApiGateway.Handler;
 using PlainApiGateway.Provider;
 using PlainApiGateway.Wrappers;
 
@@ -26,15 +27,19 @@ namespace PlainApiGateway.Middleware
             this.httpClientWrapper = httpClientWrapper;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, IErrorHandler errorHandler)
         {
             var request = this.httpRequestProvider.Create(context.Request);
+            if (request == null)
+            {
+                errorHandler.SetRouteNotFoundErrorResponse(context);
+                return;
+            }
+
             var response = await this.httpClientWrapper.SendRequest(context.Request.Method, request.GetUrl());
 
             var plainContext = context.GetPlainContext();
             plainContext.Response = response;
-
-            //var con = await plainContext.Response.Content.ReadAsStreamAsync();
 
             await this.next(context);
         }
