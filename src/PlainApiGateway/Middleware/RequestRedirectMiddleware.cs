@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Extensions;
+using PlainApiGateway.Extension;
 using PlainApiGateway.Provider;
 using PlainApiGateway.Wrappers;
 

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-using PlainApiGateway.Extensions;
+using PlainApiGateway.Context;
+using PlainApiGateway.Extension;
 
 namespace PlainApiGateway.Middleware
 {

@@ -9,7 +9,7 @@ using PlainApiGateway.Provider;
 using PlainApiGateway.Repository;
 using PlainApiGateway.Wrappers;
 
-namespace PlainApiGateway.Extensions
+namespace PlainApiGateway.Extension
 {
     public static class ServiceCollectionExtensions
     {

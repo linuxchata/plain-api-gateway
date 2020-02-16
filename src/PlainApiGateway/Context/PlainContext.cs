@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace PlainApiGateway
+namespace PlainApiGateway.Context
 {
     public sealed class PlainContext
     {

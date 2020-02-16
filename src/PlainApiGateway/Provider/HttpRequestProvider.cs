@@ -1,21 +1,42 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
+
+using Microsoft.AspNetCore.Http;
 
 using PlainApiGateway.Context;
+using PlainApiGateway.Repository;
 
 namespace PlainApiGateway.Provider
 {
     public sealed class HttpRequestProvider : IHttpRequestProvider
     {
+        private readonly IPlainConfigurationRepository configurationRepository;
+
+        public HttpRequestProvider(IPlainConfigurationRepository configurationRepository)
+        {
+            this.configurationRepository = configurationRepository;
+        }
+
         public RequestContext Create(HttpRequest httpRequest)
         {
+            var configuration = this.configurationRepository.Get();
+
+            var route = configuration.Routes
+                .FirstOrDefault(a => a.Source.Path == httpRequest.Path);
+
+            var address = route?.Target.Addresses.FirstOrDefault();
+            if (address == null)
+            {
+                return null;
+            }
+
             var request = new RequestContext
             {
                 Headers = httpRequest.Headers,
                 Method = httpRequest.Method,
-                Scheme = httpRequest.Scheme,
-                Host = httpRequest.Host.Host,
-                Port = httpRequest.Host.Port ?? 80,
-                Path = httpRequest.Path,
+                Scheme = route.Target.Scheme,
+                Host = address.Host,
+                Port = address.Port,
+                Path = route.Target.Path,
                 QueryString = httpRequest.QueryString.Value ?? string.Empty
             };
 

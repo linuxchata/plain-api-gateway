@@ -1,12 +1,26 @@
 {
   "Routes": [
     {
+      "Source": {
+        "Path": "/",
+        "HttpMethods": [ "GET" ]
+      },
+      "Target": {
+        "Scheme": "http",
+        "Addresses": [
+          {
+            "Host": "localhost",
+            "Port": 4001
+          }
+        ],
+        "Path": "/values"
+      },
       "SourcePath": "/",
       "SourceHttpMethods": [ "GET" ],
       "TargetScheme": "http",
       "TargetHost": "localhost",
-      "TargetPort": "4001",
-      "TargetPath": "/"
+      "TargetPort": 4001,
+      "TargetPath": "/values"
     }
   ]
 }

@@ -2,7 +2,9 @@
 
 using Microsoft.AspNetCore.Http;
 
-namespace PlainApiGateway.Extensions
+using PlainApiGateway.Context;
+
+namespace PlainApiGateway.Extension
 {
     public static class HttpContextExtensions
     {
