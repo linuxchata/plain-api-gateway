@@ -34,6 +34,8 @@ namespace PlainApiGateway.Middleware
             var plainContext = context.GetPlainContext();
             plainContext.Response = response;
 
+            //var con = await plainContext.Response.Content.ReadAsStreamAsync();
+
             await this.next(context);
         }
     }
