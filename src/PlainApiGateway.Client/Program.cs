@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace PlainApiGateway.Client
@@ -12,6 +13,13 @@ namespace PlainApiGateway.Client
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(configurationBuilder =>
+                {
+                    configurationBuilder
+                        .AddJsonFile("plainsettings.json")
+                        .AddEnvironmentVariables()
+                        .Build();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
