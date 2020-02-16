@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using PlainApiGateway.Extensions;
-
-namespace PlainApiGateway.Client
+namespace PlainApiGateway.TestServer
 {
     public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddPlainApiGateway();
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -21,7 +19,12 @@ namespace PlainApiGateway.Client
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UsePlainApiGateway();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

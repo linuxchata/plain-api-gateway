@@ -1,8 +1,10 @@
 ﻿{
   "profiles": {
-    "PlainApiGateway.Client": {
+    "PlainApiGateway.TestServer": {
       "commandName": "Project",
-      "applicationUrl": "http://localhost:4000",
+      "launchBrowser": true,
+      "launchUrl": "values",
+      "applicationUrl": "http://localhost:4001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
