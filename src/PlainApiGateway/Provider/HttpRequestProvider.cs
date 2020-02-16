@@ -41,7 +41,9 @@ namespace PlainApiGateway.Provider
                 Host = address.Host,
                 Port = address.Port,
                 Path = routeTarget.Path,
-                QueryString = httpRequest.QueryString.Value ?? string.Empty
+                QueryString = httpRequest.QueryString.Value ?? string.Empty,
+                // ReSharper disable once PossibleInvalidOperationException
+                TimeoutInSeconds = configuration.TimeoutInSeconds.Value
             };
 
             return request;

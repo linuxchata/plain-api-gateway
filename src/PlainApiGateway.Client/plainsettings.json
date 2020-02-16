@@ -22,5 +22,6 @@
       "TargetPort": 4001,
       "TargetPath": "/values"
     }
-  ]
+  ],
+  "TimeoutInSeconds": 5
 }

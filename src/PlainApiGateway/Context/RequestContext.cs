@@ -20,6 +20,8 @@ namespace PlainApiGateway.Context
 
         public string QueryString { get; set; }
 
+        public ushort TimeoutInSeconds { get; set; }
+
         public string GetUrl()
         {
             var urlBuilder = new UriBuilder

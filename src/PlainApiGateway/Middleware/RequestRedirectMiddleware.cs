@@ -36,7 +36,10 @@ namespace PlainApiGateway.Middleware
                 return;
             }
 
-            var response = await this.httpClientWrapper.SendRequest(context.Request.Method, request.GetUrl());
+            var response = await this.httpClientWrapper.SendRequest(
+                context.Request.Method,
+                request.GetUrl(),
+                request.TimeoutInSeconds);
 
             var plainContext = context.GetPlainContext();
             plainContext.Response = response;

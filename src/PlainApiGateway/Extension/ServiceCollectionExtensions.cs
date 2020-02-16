@@ -14,6 +14,8 @@ namespace PlainApiGateway.Extension
 {
     public static class ServiceCollectionExtensions
     {
+        private const ushort DefaultTimeoutInSeconds = 30;
+
         public static IServiceCollection AddPlainApiGateway(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null)
@@ -51,6 +53,8 @@ namespace PlainApiGateway.Extension
             {
                 throw new InvalidOperationException("Plain configuration cannot be read");
             }
+
+            plainConfiguration.TimeoutInSeconds = DefaultTimeoutInSeconds;
 
             return plainConfiguration;
         }
