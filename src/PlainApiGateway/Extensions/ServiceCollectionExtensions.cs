@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
+using PlainApiGateway.Provider;
 using PlainApiGateway.Wrappers;
 
 namespace PlainApiGateway.Extensions
@@ -17,6 +18,7 @@ namespace PlainApiGateway.Extensions
 
             services.AddHttpClient();
 
+            services.AddTransient<IHttpRequestProvider, HttpRequestProvider>();
             services.AddTransient<IHttpClientWrapper, HttpClientWrapper>();
 
             return services;
