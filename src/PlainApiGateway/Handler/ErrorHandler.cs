@@ -18,7 +18,7 @@ namespace PlainApiGateway.Handler
             {
                 this.logger.LogWarning(
                     "Corresponding route for {method} request to [{path}] path has not been found",
-                    context.Request.Method,
+                    context.Request.Method.ToUpper(),
                     context.Request.Path);
 
                 context.Response.StatusCode = StatusCodes.Status404NotFound;

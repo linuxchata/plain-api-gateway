@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
@@ -12,42 +11,36 @@ namespace PlainApiGateway.Provider
     {
         private readonly IPlainConfigurationRepository configurationRepository;
 
-        public HttpRequestProvider(IPlainConfigurationRepository configurationRepository)
+        private readonly IRequestRouteProvider requestRouteProvider;
+
+        public HttpRequestProvider(
+            IPlainConfigurationRepository configurationRepository, 
+            IRequestRouteProvider requestRouteProvider)
         {
             this.configurationRepository = configurationRepository;
+            this.requestRouteProvider = requestRouteProvider;
         }
 
         public RequestContext Create(HttpRequest httpRequest)
         {
             var configuration = this.configurationRepository.Get();
 
-            var route = configuration.Routes
-                .FirstOrDefault(a => a.Source.Path == httpRequest.Path);
-
-            if (route == null)
+            var routeTarget = this.requestRouteProvider.GetTargetRoute(configuration.Routes, httpRequest);
+            if (routeTarget == null)
             {
                 return null;
             }
 
-            if (!route.Source.HttpMethods.Any(a => string.Equals(a, httpRequest.Method, StringComparison.OrdinalIgnoreCase)))
-            {
-                return null;
-            }
-
-            var address = route.Target.Addresses.FirstOrDefault();
-            if (address == null)
-            {
-                return null;
-            }
+            var address = routeTarget.Addresses.First();
 
             var request = new RequestContext
             {
                 Headers = httpRequest.Headers,
                 Method = httpRequest.Method,
-                Scheme = route.Target.Scheme,
+                Scheme = routeTarget.Scheme,
                 Host = address.Host,
                 Port = address.Port,
-                Path = route.Target.Path,
+                Path = routeTarget.Path,
                 QueryString = httpRequest.QueryString.Value ?? string.Empty
             };
 
