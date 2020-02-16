@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +13,6 @@ namespace PlainApiGateway.Extension
 {
     public static class ServiceCollectionExtensions
     {
-        private const ushort DefaultTimeoutInSeconds = 30;
-
         public static IServiceCollection AddPlainApiGateway(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null)
@@ -28,12 +25,12 @@ namespace PlainApiGateway.Extension
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            var plainConfiguration = ReadConfiguration(configuration);
-            RegisterConfigurationRepository(services, plainConfiguration);
-
             services.AddHttpClient();
 
             services.AddLogging();
+
+            var plainConfiguration = ReadConfiguration(configuration);
+            RegisterConfigurationRepository(services, plainConfiguration);
 
             services.AddTransient<IErrorHandler, ErrorHandler>();
 
@@ -46,17 +43,8 @@ namespace PlainApiGateway.Extension
 
         private static PlainConfiguration ReadConfiguration(IConfiguration configuration)
         {
-            var plainConfiguration = new PlainConfiguration();
-            configuration.Bind(plainConfiguration);
-
-            if (plainConfiguration.Routes == null || !plainConfiguration.Routes.Any())
-            {
-                throw new InvalidOperationException("Plain configuration cannot be read");
-            }
-
-            plainConfiguration.TimeoutInSeconds = DefaultTimeoutInSeconds;
-
-            return plainConfiguration;
+            var plainConfigurationReader = new PlainConfigurationReader();
+            return plainConfigurationReader.Read(configuration);
         }
 
         private static void RegisterConfigurationRepository(IServiceCollection services, PlainConfiguration plainConfiguration)
