@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
+using PlainApiGateway.TestServer.ViewModel;
+
 namespace PlainApiGateway.TestServer.Controllers
 {
     [Route("[controller]")]
@@ -24,6 +26,18 @@ namespace PlainApiGateway.TestServer.Controllers
         public IActionResult GetJsonLoad()
         {
             return this.Ok("Load");
+        }
+
+        [HttpPost]
+        public IActionResult Post()
+        {
+            var content = new ResponseViewModel
+            {
+                Id = 1,
+                Name = "Name"
+            };
+
+            return this.Ok(content);
         }
     }
 }
