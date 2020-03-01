@@ -8,6 +8,12 @@ namespace PlainApiGateway.TestServer.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly ResponseViewModel content = new ResponseViewModel
+        {
+            Id = 1,
+            Name = "Name"
+        };
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -18,26 +24,20 @@ namespace PlainApiGateway.TestServer.Controllers
         [Produces(ContentType.Xml)]
         public IActionResult GetXmlLoad()
         {
-            return this.Ok("Load");
+            return this.Ok(this.content);
         }
 
         [HttpGet("loadjson")]
         [Produces(ContentType.Json)]
         public IActionResult GetJsonLoad()
         {
-            return this.Ok("Load");
+            return this.Ok(this.content);
         }
 
         [HttpPost]
         public IActionResult Post()
         {
-            var content = new ResponseViewModel
-            {
-                Id = 1,
-                Name = "Name"
-            };
-
-            return this.Ok(content);
+            return this.Ok(this.content);
         }
     }
 }
