@@ -14,13 +14,7 @@
           }
         ],
         "Path": "/values"
-      },
-      "SourcePath": "/",
-      "SourceHttpMethods": [ "GET" ],
-      "TargetScheme": "http",
-      "TargetHost": "localhost",
-      "TargetPort": 4001,
-      "TargetPath": "/values"
+      }
     }
   ],
   "TimeoutInSeconds": 5
