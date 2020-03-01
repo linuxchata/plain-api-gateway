@@ -20,16 +20,22 @@ namespace PlainApiGateway.TestServer.Controllers
             return this.Ok("Test server is up and running");
         }
 
-        [HttpGet("loadxml")]
+        [HttpGet("statuscode/{statusCode}")]
+        public IActionResult GetStatusCode([FromRoute]int statusCode)
+        {
+            return this.StatusCode(statusCode);
+        }
+
+        [HttpGet("xml")]
         [Produces(ContentType.Xml)]
-        public IActionResult GetXmlLoad()
+        public IActionResult GetXml()
         {
             return this.Ok(this.content);
         }
 
-        [HttpGet("loadjson")]
+        [HttpGet("json")]
         [Produces(ContentType.Json)]
-        public IActionResult GetJsonLoad()
+        public IActionResult GetJson()
         {
             return this.Ok(this.content);
         }

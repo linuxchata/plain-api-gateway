@@ -35,6 +35,7 @@ namespace PlainApiGateway.Extension
             services.AddTransient<IErrorHandler, ErrorHandler>();
 
             services.AddTransient<IRequestRouteProvider, RequestRouteProvider>();
+            services.AddTransient<IRequestPathProvider, RequestPathProvider>();
             services.AddTransient<IHttpRequestProvider, HttpRequestProvider>();
             services.AddTransient<IHttpClientWrapper, HttpClientWrapper>();
 

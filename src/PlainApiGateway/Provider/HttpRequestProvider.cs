@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
@@ -13,16 +14,25 @@ namespace PlainApiGateway.Provider
 
         private readonly IRequestRouteProvider requestRouteProvider;
 
+        private readonly IRequestPathProvider requestPathProvider;
+
         public HttpRequestProvider(
-            IPlainConfigurationRepository configurationRepository, 
-            IRequestRouteProvider requestRouteProvider)
+            IPlainConfigurationRepository configurationRepository,
+            IRequestRouteProvider requestRouteProvider,
+            IRequestPathProvider requestPathProvider)
         {
             this.configurationRepository = configurationRepository;
             this.requestRouteProvider = requestRouteProvider;
+            this.requestPathProvider = requestPathProvider;
         }
 
         public RequestContext Create(HttpRequest httpRequest)
         {
+            if (httpRequest == null)
+            {
+                throw new ArgumentNullException(nameof(httpRequest));
+            }
+
             var configuration = this.configurationRepository.Get();
 
             var routeTarget = this.requestRouteProvider.GetTargetRoute(configuration.Routes, httpRequest);
@@ -40,7 +50,7 @@ namespace PlainApiGateway.Provider
                 Scheme = routeTarget.Scheme,
                 Host = address.Host,
                 Port = address.Port,
-                Path = routeTarget.Path,
+                Path = this.requestPathProvider.GetPath(httpRequest.Path, routeTarget.Path),
                 QueryString = httpRequest.QueryString.Value ?? string.Empty,
                 // ReSharper disable once PossibleInvalidOperationException
                 TimeoutInSeconds = configuration.TimeoutInSeconds.Value
