@@ -39,5 +39,17 @@ namespace PlainApiGateway.TestServer.Controllers
         {
             return this.Ok(this.content);
         }
+
+        [HttpPut]
+        public IActionResult Put()
+        {
+            return this.NoContent();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete()
+        {
+            return this.NoContent();
+        }
     }
 }

@@ -3,7 +3,7 @@
     {
       "Source": {
         "Path": "/",
-        "HttpMethods": [ "GET", "POST" ]
+        "HttpMethods": [ "GET", "POST", "PUT", "DELETE" ]
       },
       "Target": {
         "Scheme": "http",
