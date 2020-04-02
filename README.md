@@ -1,4 +1,5 @@
 ## Roadmap
+1. Extend test server
 1. Prepare testing Postman collection
 1. Extend logging
 1. Support of custom middlewares
