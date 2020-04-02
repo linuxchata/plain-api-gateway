@@ -9,8 +9,8 @@ namespace PlainApiGateway.Wrappers
     public interface IHttpClientWrapper
     {
         Task<HttpResponseMessage> SendRequest(
-            string httpMethod,
             string requestUrl,
+            string httpMethod,
             Stream requestBodyStream,
             IHeaderDictionary headers,
             int timeoutInSeconds);

@@ -1,4 +1,4 @@
-﻿namespace PlainApiGateway.Constants
+﻿namespace PlainApiGateway.Constant
 {
     public static class RoutePath
     {

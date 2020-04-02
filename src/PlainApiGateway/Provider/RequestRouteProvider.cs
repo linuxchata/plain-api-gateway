@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 
 using PlainApiGateway.Configuration;
-using PlainApiGateway.Constants;
+using PlainApiGateway.Constant;
 
 namespace PlainApiGateway.Provider
 {
@@ -24,31 +24,31 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var route = routes.FirstOrDefault(a => PathMatcher(a, httpRequest));
-            if (route == null)
+            var routeConfiguration = routes.FirstOrDefault(a => PathMatcher(a, httpRequest.Path));
+            if (routeConfiguration == null)
             {
                 return null;
             }
 
-            if (!IsHttpMethodAllowed(httpRequest, route))
+            if (!IsHttpMethodAllowed(httpRequest.Method, routeConfiguration.Source.HttpMethods))
             {
                 return null;
             }
 
-            if (!route.Target.Addresses?.Any() ?? true)
+            if (!routeConfiguration.Target.Addresses?.Any() ?? true)
             {
                 return null;
             }
 
-            return route.Target;
+            return routeConfiguration.Target;
         }
 
-        private static bool PathMatcher(PlainRouteConfiguration c, HttpRequest httpRequest)
+        private static bool PathMatcher(PlainRouteConfiguration c, PathString path)
         {
             var matches = Regex.Matches(c.Source.Path, RoutePath.Any, RegexOptions.Compiled);
             if (matches.Count == 0)
             {
-                return c.Source.Path == httpRequest.Path;
+                return c.Source.Path == path;
             }
 
             if (matches.Count == 1 && matches[0].Success)
@@ -59,9 +59,9 @@ namespace PlainApiGateway.Provider
             throw new ArgumentException($"Source path {c.Source.Path} is invalid");
         }
 
-        private static bool IsHttpMethodAllowed(HttpRequest httpRequest, PlainRouteConfiguration route)
+        private static bool IsHttpMethodAllowed(string httpRequestMethod, string[] htpMethods)
         {
-            return route.Source.HttpMethods.Any(a => string.Equals(a, httpRequest.Method, StringComparison.OrdinalIgnoreCase));
+            return htpMethods.Any(a => string.Equals(a, httpRequestMethod, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

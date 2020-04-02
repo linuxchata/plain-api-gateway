@@ -28,10 +28,7 @@ namespace PlainApiGateway.Middleware
 
             SetStatusCode(context, plainContext);
 
-            var contentLengthHeader = CreateContentLengthHeader(plainContext);
-            SetHeader(context.Response, contentLengthHeader);
-
-            SetHeaders(context.Response, plainContext);
+            SetHeaders(context, plainContext);
 
             await CopyContent(context, plainContext);
         }
@@ -41,6 +38,20 @@ namespace PlainApiGateway.Middleware
             if (!context.Response.HasStarted)
             {
                 context.Response.StatusCode = (int)plainContext.Response.StatusCode;
+            }
+        }
+
+        private static void SetHeaders(HttpContext context, PlainContext plainContext)
+        {
+            var contentLengthHeader = CreateContentLengthHeader(plainContext);
+            SetHeader(context.Response, contentLengthHeader);
+
+            foreach (var header in plainContext.Response.Content.Headers)
+            {
+                if (!context.Response.Headers.ContainsKey(header.Key))
+                {
+                    context.Response.Headers.Add(header.Key, new StringValues(header.Value.ToArray()));
+                }
             }
         }
 
@@ -55,17 +66,6 @@ namespace PlainApiGateway.Middleware
             if (!response.Headers.ContainsKey(header.Key))
             {
                 response.Headers.Add(header.Key, header.Value);
-            }
-        }
-
-        private static void SetHeaders(HttpResponse response, PlainContext plainContext)
-        {
-            foreach (var header in plainContext.Response.Content.Headers)
-            {
-                if (!response.Headers.ContainsKey(header.Key))
-                {
-                    response.Headers.Add(header.Key, new StringValues(header.Value.ToArray()));
-                }
             }
         }
 

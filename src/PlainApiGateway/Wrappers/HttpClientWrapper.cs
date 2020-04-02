@@ -19,33 +19,33 @@ namespace PlainApiGateway.Wrappers
         }
 
         public async Task<HttpResponseMessage> SendRequest(
-            string httpMethod,
             string requestUrl,
+            string httpMethod,
             Stream requestBodyStream,
             IHeaderDictionary headers,
             int timeoutInSeconds)
         {
-            ValidateParameters(httpMethod, requestUrl, headers);
+            ValidateParameters(requestUrl, httpMethod, headers);
 
             var client = this.CreateHttpClient(timeoutInSeconds);
 
-            var requestMessage = this.CreateHttpRequestMessage(httpMethod, requestUrl, requestBodyStream, headers);
+            var requestMessage = this.CreateHttpRequestMessage(requestUrl, httpMethod, requestBodyStream, headers);
 
             var response = await client.SendAsync(requestMessage);
 
             return response;
         }
 
-        private static void ValidateParameters(string httpMethod, string requestUrl, IHeaderDictionary headers)
+        private static void ValidateParameters(string requestUrl, string httpMethod, IHeaderDictionary headers)
         {
-            if (string.IsNullOrWhiteSpace(httpMethod))
-            {
-                throw new ArgumentNullException(nameof(httpMethod));
-            }
-
             if (string.IsNullOrWhiteSpace(requestUrl))
             {
                 throw new ArgumentNullException(nameof(requestUrl));
+            }
+
+            if (string.IsNullOrWhiteSpace(httpMethod))
+            {
+                throw new ArgumentNullException(nameof(httpMethod));
             }
 
             if (headers == null)
@@ -62,8 +62,8 @@ namespace PlainApiGateway.Wrappers
         }
 
         private HttpRequestMessage CreateHttpRequestMessage(
-            string httpMethod,
             string requestUrl,
+            string httpMethod,
             Stream requestStream,
             IHeaderDictionary headers)
         {

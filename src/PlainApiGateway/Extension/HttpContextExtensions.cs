@@ -21,7 +21,6 @@ namespace PlainApiGateway.Extension
             }
 
             var plainContext = context.Features.Get<PlainContext>();
-
             if (plainContext == null)
             {
                 plainContext = new PlainContext();
