@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainApiGateway.Client", "PlainApiGateway.Client\PlainApiGateway.Client.csproj", "{3A9788A9-1B28-4C24-9E26-408228C8A515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainApiGateway.TestClient", "PlainApiGateway.Client\PlainApiGateway.TestClient.csproj", "{3A9788A9-1B28-4C24-9E26-408228C8A515}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainApiGateway.TestServer", "PlainApiGateway.TestServer\PlainApiGateway.TestServer.csproj", "{4F034F1E-67A6-45C2-BF54-C1D75C1C93E4}"
 EndProject

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 
 using PlainApiGateway.Extension;
 
-namespace PlainApiGateway.Client
+namespace PlainApiGateway.TestClient
 {
     public class Startup
     {
