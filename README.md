@@ -1,3 +1,9 @@
+## Build Status
+| Build server | Target       | Status      |
+|--------------|--------------|-------------|
+| GitHub       | CI           | ![CI](https://github.com/linuxchata/plain-api-gateway/workflows/CI/badge.svg) |
+| Better Code  | Code quality | [![BCH compliance](https://bettercodehub.com/edge/badge/linuxchata/plain-api-gateway?branch=master)](https://bettercodehub.com/) |
+
 ## Roadmap
 1. Extend test server
 1. Prepare testing Postman collection
