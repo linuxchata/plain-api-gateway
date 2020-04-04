@@ -3,7 +3,8 @@
 |--------------|--------------|-------------|
 | GitHub       | CI           | ![CI](https://github.com/linuxchata/plain-api-gateway/workflows/CI/badge.svg) |
 | Better Code  | Code quality | [![BCH compliance](https://bettercodehub.com/edge/badge/linuxchata/plain-api-gateway?branch=master)](https://bettercodehub.com/) |
-| CodeScene | Code quality | [![CodeScene Code Health](https://codescene.io/projects/7721/status-badges/code-health)](https://codescene.io/projects/7721) |
+
+[![](https://codescene.io/projects/7721/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/7721/jobs/latest-successful/results)
 
 ## Roadmap
 1. Extend test server
