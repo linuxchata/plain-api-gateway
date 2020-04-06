@@ -11,12 +11,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4001/post/all",
+					"raw": "http://localhost:4000/post/all",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post",
 						"all"
@@ -37,12 +37,12 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:4001/post/allxml",
+					"raw": "http://localhost:4000/post/allxml",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post",
 						"allxml"
@@ -57,12 +57,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4001/post/1",
+					"raw": "http://localhost:4000/post/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post",
 						"1"
@@ -77,12 +77,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:4001/post?userid=1",
+					"raw": "http://localhost:4000/post?userid=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post"
 					],
@@ -112,12 +112,12 @@
 					"raw": "{\n\t\"id\": 3,\n\t\"userId\": 1,\n\t\"title\": \"ea molestias quasi exercitationem repellat qui ipsa sit aut\",\n\t\"body\": \"et iusto sed quo iure\\nvoluptatem occaecati omnis eligendi aut ad\\nvoluptatem doloribus vel accusantium quis pariatur\\nmolestiae porro eius odio et labore et velit aut\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:4001/post",
+					"raw": "http://localhost:4000/post",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post"
 					]
@@ -141,12 +141,12 @@
 					"raw": "{\n\t\"id\": 3,\n\t\"userId\": 1,\n\t\"title\": \"eum et est occaecati\",\n\t\"body\": \"ullam et saepe reiciendis voluptatem adipisci\\nsit amet autem assumenda provident rerum culpa\\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\\nquis sunt voluptatem rerum illo velit\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:4001/post/3",
+					"raw": "http://localhost:4000/post/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post",
 						"3"
@@ -165,12 +165,12 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:4001/post/3",
+					"raw": "http://localhost:4000/post/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "4001",
+					"port": "4000",
 					"path": [
 						"post",
 						"3"
