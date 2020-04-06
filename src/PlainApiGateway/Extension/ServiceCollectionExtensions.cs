@@ -13,6 +13,12 @@ namespace PlainApiGateway.Extension
 {
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Add Plain API gateway to collection of services
+        /// </summary>
+        /// <param name="services">Services collection</param>
+        /// <param name="configuration">The configuration</param>
+        /// <returns>Returns services collection</returns>
         public static IServiceCollection AddPlainApiGateway(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null)
