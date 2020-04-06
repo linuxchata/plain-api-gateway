@@ -2,7 +2,7 @@
   "Routes": [
     {
       "Source": {
-        "Path": "/{any}",
+        "Path": "/values/{any}",
         "HttpMethods": [ "GET", "POST", "PUT", "DELETE" ]
       },
       "Target": {
@@ -14,6 +14,22 @@
           }
         ],
         "Path": "/values/{any}"
+      }
+    },
+    {
+      "Source": {
+        "Path": "/post/{any}",
+        "HttpMethods": [ "GET", "POST", "PUT", "DELETE" ]
+      },
+      "Target": {
+        "Scheme": "http",
+        "Addresses": [
+          {
+            "Host": "localhost",
+            "Port": 4001
+          }
+        ],
+        "Path": "/post/{any}"
       }
     }
   ],
