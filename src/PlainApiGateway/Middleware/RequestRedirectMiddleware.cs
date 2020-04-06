@@ -37,8 +37,8 @@ namespace PlainApiGateway.Middleware
             }
 
             var response = await this.httpClientWrapper.SendRequest(
-                context.Request.Method,
                 request.GetUrl(),
+                context.Request.Method,
                 context.Request.Body,
                 request.Headers,
                 request.TimeoutInSeconds);
