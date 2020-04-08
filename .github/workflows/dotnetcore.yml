@@ -12,4 +12,7 @@ jobs:
     - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: '3.1.100'
-    - run: dotnet build ./src/PlainApiGateway.sln --configuration Release
+    - name: build with dotnet
+      run: dotnet build ./src/PlainApiGateway.sln --configuration Release
+    - name: test with dotnet
+      run: dotnet test ./src/Solution.sln --configuration Release
