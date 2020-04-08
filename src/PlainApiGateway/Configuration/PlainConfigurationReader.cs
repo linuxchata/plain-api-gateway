@@ -11,6 +11,11 @@ namespace PlainApiGateway.Configuration
 
         public PlainConfiguration Read(IConfiguration configuration)
         {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration));
+            }
+
             var plainConfiguration = new PlainConfiguration();
             configuration.Bind(plainConfiguration);
 

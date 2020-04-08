@@ -1,0 +1,21 @@
+﻿{
+  "Routes": [
+    {
+      "Source": {
+        "Path": "/values/{any}",
+        "HttpMethods": [ "GET", "POST", "PUT", "DELETE" ]
+      },
+      "Target": {
+        "Scheme": "http",
+        "Addresses": [
+          {
+            "Host": "localhost",
+            "Port": 4001
+          }
+        ],
+        "Path": "/values/{any}"
+      }
+    }
+  ],
+  "TimeoutInSeconds": 5
+}
