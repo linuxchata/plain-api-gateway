@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using Microsoft.AspNetCore.Http;
 
 using PlainApiGateway.Configuration;
-using PlainApiGateway.Constant;
+using PlainApiGateway.Helper;
 
 namespace PlainApiGateway.Provider
 {
@@ -24,7 +23,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var routeConfiguration = routes.FirstOrDefault(a => PathMatcher(a.Source.Path, httpRequest.Path));
+            var routeConfiguration = routes.FirstOrDefault(a => PathMatchHelper.IsMatch(a.Source.Path, httpRequest.Path));
             if (routeConfiguration == null)
             {
                 return null;
@@ -41,22 +40,6 @@ namespace PlainApiGateway.Provider
             }
 
             return routeConfiguration.Target;
-        }
-
-        private static bool PathMatcher(string sourcePath, PathString requestPath)
-        {
-            var matches = Regex.Matches(sourcePath, RoutePath.Any, RegexOptions.Compiled);
-            if (matches.Count == 0)
-            {
-                return sourcePath == requestPath;
-            }
-
-            if (matches.Count == 1 && matches[0].Success)
-            {
-                return true;
-            }
-
-            throw new ArgumentException($"Source path {sourcePath} is invalid");
         }
 
         private static bool IsHttpMethodAllowed(string httpRequestMethod, string[] httpMethods)
