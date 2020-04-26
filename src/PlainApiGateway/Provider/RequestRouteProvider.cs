@@ -24,7 +24,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var routeConfiguration = routes.FirstOrDefault(a => PathMatcher(a, httpRequest.Path));
+            var routeConfiguration = routes.FirstOrDefault(a => PathMatcher(a.Source.Path, httpRequest.Path));
             if (routeConfiguration == null)
             {
                 return null;
@@ -43,12 +43,12 @@ namespace PlainApiGateway.Provider
             return routeConfiguration.Target;
         }
 
-        private static bool PathMatcher(PlainRouteConfiguration c, PathString path)
+        private static bool PathMatcher(string sourcePath, PathString requestPath)
         {
-            var matches = Regex.Matches(c.Source.Path, RoutePath.Any, RegexOptions.Compiled);
+            var matches = Regex.Matches(sourcePath, RoutePath.Any, RegexOptions.Compiled);
             if (matches.Count == 0)
             {
-                return c.Source.Path == path;
+                return sourcePath == requestPath;
             }
 
             if (matches.Count == 1 && matches[0].Success)
@@ -56,12 +56,12 @@ namespace PlainApiGateway.Provider
                 return true;
             }
 
-            throw new ArgumentException($"Source path {c.Source.Path} is invalid");
+            throw new ArgumentException($"Source path {sourcePath} is invalid");
         }
 
-        private static bool IsHttpMethodAllowed(string httpRequestMethod, string[] htpMethods)
+        private static bool IsHttpMethodAllowed(string httpRequestMethod, string[] httpMethods)
         {
-            return htpMethods.Any(a => string.Equals(a, httpRequestMethod, StringComparison.OrdinalIgnoreCase));
+            return httpMethods.Any(a => string.Equals(a, httpRequestMethod, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

@@ -35,22 +35,22 @@ namespace PlainApiGateway.Provider
 
             var configuration = this.configurationRepository.Get();
 
-            var routeTarget = this.requestRouteProvider.GetTargetRoute(configuration.Routes, httpRequest);
-            if (routeTarget == null)
+            var targetRoute = this.requestRouteProvider.GetTargetRoute(configuration.Routes, httpRequest);
+            if (targetRoute == null)
             {
                 return null;
             }
 
-            var address = routeTarget.Addresses.First();
+            var address = targetRoute.Addresses.First();
 
             var request = new RequestContext
             {
                 Headers = httpRequest.Headers,
                 Method = httpRequest.Method,
-                Scheme = routeTarget.Scheme,
+                Scheme = targetRoute.Scheme,
                 Host = address.Host,
                 Port = address.Port,
-                Path = this.requestPathProvider.GetPath(httpRequest.Path, routeTarget.Path),
+                Path = this.requestPathProvider.GetPath(httpRequest.Path, targetRoute.Path),
                 QueryString = httpRequest.QueryString.Value ?? string.Empty,
                 // ReSharper disable once PossibleInvalidOperationException
                 TimeoutInSeconds = configuration.TimeoutInSeconds.Value
