@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
-namespace PlainApiGateway.Wrappers
+namespace PlainApiGateway.Wrapper
 {
     public sealed class HttpClientWrapper : IHttpClientWrapper
     {

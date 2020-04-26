@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Provider;
-using PlainApiGateway.Wrappers;
+using PlainApiGateway.Wrapper;
 
 namespace PlainApiGateway.Middleware
 {

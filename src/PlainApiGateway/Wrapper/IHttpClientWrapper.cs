@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-namespace PlainApiGateway.Wrappers
+namespace PlainApiGateway.Wrapper
 {
     public interface IHttpClientWrapper
     {

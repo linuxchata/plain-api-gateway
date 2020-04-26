@@ -7,7 +7,7 @@ using PlainApiGateway.Configuration;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Provider;
 using PlainApiGateway.Repository;
-using PlainApiGateway.Wrappers;
+using PlainApiGateway.Wrapper;
 
 namespace PlainApiGateway.Extension
 {
