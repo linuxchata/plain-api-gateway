@@ -19,7 +19,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(routeTargetPath));
             }
 
-            var basePath = Regex.Replace(routeTargetPath, RoutePath.Any, string.Empty);
+            var basePath = Regex.Replace(routeTargetPath, RoutePath.VariableRegex, string.Empty);
 
             var basePathUri = basePath.TrimEnd('/');
             var requestPathUri = httpRequestPath.TrimStart('/');

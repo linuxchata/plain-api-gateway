@@ -2,6 +2,8 @@
 {
     public static class RoutePath
     {
-        public const string Any = @"\{.*?\}";
+        public const string VariableRegex = @"\{.*?\}";
+
+        public const string AnyCharacterRegex = @"(.*)";
     }
 }
