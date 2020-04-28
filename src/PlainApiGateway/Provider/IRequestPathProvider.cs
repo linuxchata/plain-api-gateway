@@ -6,9 +6,9 @@
         /// Gets request path
         /// </summary>
         /// <param name="httpRequestPath">HTTP request path</param>
-        /// <param name="routeSourcePath">Source path</param>
-        /// <param name="routeTargetPath">Target path</param>
+        /// <param name="sourcePathTemplate">Source path template</param>
+        /// <param name="targetPathTemplate">Target path template</param>
         /// <returns>Returns request path</returns>
-        string GetPath(string httpRequestPath, string routeSourcePath, string routeTargetPath);
+        string Get(string httpRequestPath, string sourcePathTemplate, string targetPathTemplate);
     }
 }

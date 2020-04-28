@@ -35,7 +35,7 @@ namespace PlainApiGateway.Provider
 
             var configuration = this.configurationRepository.Get();
 
-            var routeConfiguration = this.requestRouteProvider.GetTargetRoute(configuration.Routes, httpRequest);
+            var routeConfiguration = this.requestRouteProvider.GetMatchingRouteConfiguration(configuration.Routes, httpRequest);
             if (routeConfiguration == null)
             {
                 return null;
@@ -50,7 +50,7 @@ namespace PlainApiGateway.Provider
                 Scheme = routeConfiguration.Target.Scheme,
                 Host = address.Host,
                 Port = address.Port,
-                Path = this.requestPathProvider.GetPath(httpRequest.Path, routeConfiguration.Source.Path, routeConfiguration.Target.Path),
+                Path = this.requestPathProvider.Get(httpRequest.Path, routeConfiguration.Source.PathTemplate, routeConfiguration.Target.PathTemplate),
                 QueryString = httpRequest.QueryString.Value ?? string.Empty,
                 // ReSharper disable once PossibleInvalidOperationException
                 TimeoutInSeconds = configuration.TimeoutInSeconds.Value

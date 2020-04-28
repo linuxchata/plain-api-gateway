@@ -11,7 +11,7 @@ namespace PlainApiGateway.Provider
 {
     public sealed class RequestRouteProvider : IRequestRouteProvider
     {
-        public PlainRouteConfiguration GetTargetRoute(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
+        public PlainRouteConfiguration GetMatchingRouteConfiguration(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
         {
             if (routes == null)
             {
@@ -23,7 +23,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var routeConfiguration = routes.FirstOrDefault(a => PathMatchHelper.IsMatch(a.Source.Path, httpRequest.Path));
+            var routeConfiguration = routes.FirstOrDefault(a => PathMatchHelper.IsMatch(a.Source.PathTemplate, httpRequest.Path));
             if (routeConfiguration == null)
             {
                 return null;

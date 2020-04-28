@@ -2,7 +2,7 @@
   "Routes": [
     {
       "Source": {
-        "Path": "/values/{any}",
+        "PathTemplate": "/values/{any}",
         "HttpMethods": [ "GET", "POST", "PUT", "DELETE" ]
       },
       "Target": {
@@ -13,7 +13,7 @@
             "Port": 4001
           }
         ],
-        "Path": "/values/{any}"
+        "PathTemplate": "/values/{any}"
       }
     }
   ],

@@ -6,6 +6,6 @@
 
         public PlainRouteTargetAddressConfiguration[] Addresses { get; set; }
 
-        public string Path { get; set; }
+        public string PathTemplate { get; set; }
     }
 }
