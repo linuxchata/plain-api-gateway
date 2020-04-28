@@ -11,7 +11,7 @@ namespace PlainApiGateway.Provider
 {
     public sealed class RequestRouteProvider : IRequestRouteProvider
     {
-        public PlainRouteTargetConfiguration GetTargetRoute(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
+        public PlainRouteConfiguration GetTargetRoute(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
         {
             if (routes == null)
             {
@@ -39,7 +39,7 @@ namespace PlainApiGateway.Provider
                 return null;
             }
 
-            return routeConfiguration.Target;
+            return routeConfiguration;
         }
 
         private static bool IsHttpMethodAllowed(string httpRequestMethod, string[] httpMethods)

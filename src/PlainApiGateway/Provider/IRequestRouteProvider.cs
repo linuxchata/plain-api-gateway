@@ -9,11 +9,11 @@ namespace PlainApiGateway.Provider
     public interface IRequestRouteProvider
     {
         /// <summary>
-        /// Get target route
+        /// Get route configuration for the request
         /// </summary>
         /// <param name="routes">List of routes</param>
         /// <param name="httpRequest">HTTP request</param>
-        /// <returns>Returns target route</returns>
-        PlainRouteTargetConfiguration GetTargetRoute(List<PlainRouteConfiguration> routes, HttpRequest httpRequest);
+        /// <returns>Returns route configuration for the request</returns>
+        PlainRouteConfiguration GetTargetRoute(List<PlainRouteConfiguration> routes, HttpRequest httpRequest);
     }
 }
