@@ -26,7 +26,20 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(targetPathTemplate));
             }
 
-            var pathVariables = GetPathVariables(httpRequestPath, sourcePathTemplate);
+            string sourcePathTemplateRegex = GetSearchPathTemplateVariablesRegex(sourcePathTemplate);
+
+            var matches = GetPathVariablesMatches(httpRequestPath, sourcePathTemplateRegex);
+            if (!matches.Any())
+            {
+                throw new ArgumentException(nameof(httpRequestPath));
+            }
+
+            if (string.Equals(matches[0].Value, httpRequestPath))
+            {
+                return httpRequestPath;
+            }
+
+            var pathVariables = GetPathVariables(matches);
 
             string requestPathUri = string.Empty;
             foreach (var pathVariable in pathVariables)
@@ -35,17 +48,6 @@ namespace PlainApiGateway.Provider
             }
 
             return requestPathUri;
-        }
-
-        private static List<string> GetPathVariables(string httpRequestPath, string sourcePathTemplate)
-        {
-            string sourcePathTemplateRegex = GetSearchPathTemplateVariablesRegex(sourcePathTemplate);
-
-            var matches = GetPathVariablesMatches(httpRequestPath, sourcePathTemplateRegex);
-
-            var variables = GetVariables(matches); // Skip full match
-
-            return variables.ToList();
         }
 
         private static string GetSearchPathTemplateVariablesRegex(string sourcePathTemplate)
@@ -58,9 +60,13 @@ namespace PlainApiGateway.Provider
             return Regex.Matches(httpRequestPath, sourcePathTemplateRegex, RegexOptions.Compiled);
         }
 
-        private static IEnumerable<string> GetVariables(MatchCollection matches)
+        private static List<string> GetPathVariables(MatchCollection matches)
         {
-            return matches[0].Groups.Values.Select(a => a.Value).Skip(1);
+            return matches[0].Groups.Values
+                .Select(a => a.Value)
+                .Where(a => !string.IsNullOrEmpty(a))
+                .Skip(1) // Skip full match
+                .ToList();
         }
 
         private static string ReplacePathTemplateWithVariable(string targetPathTemplate, string pathVariable)
