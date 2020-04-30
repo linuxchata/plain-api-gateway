@@ -23,7 +23,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var routeConfiguration = routes.FirstOrDefault(a => PathMatchHelper.IsMatch(a.Source.PathTemplate, httpRequest.Path));
+            var routeConfiguration = routes.FirstOrDefault(a => PathFounderHelper.IsMatch(a.Source.PathTemplate, httpRequest.Path));
             if (routeConfiguration == null)
             {
                 return null;

@@ -8,7 +8,7 @@ using PlainApiGateway.TestServer.ViewModel;
 
 namespace PlainApiGateway.TestServer.Controllers
 {
-    [Route("[controller]")]
+    [Route("[controller]/api")]
     [ApiController]
     public sealed class PostController : ControllerBase
     {

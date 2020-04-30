@@ -6,7 +6,7 @@ using PlainApiGateway.Constant;
 
 namespace PlainApiGateway.Helper
 {
-    public static class PathMatchHelper
+    public static class PathFounderHelper
     {
         public static bool IsMatch(string sourcePathTemplate, PathString requestPath)
         {

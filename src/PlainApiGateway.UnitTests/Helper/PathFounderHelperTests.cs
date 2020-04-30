@@ -5,7 +5,7 @@ using PlainApiGateway.Helper;
 namespace PlainApiGateway.UnitTests.Helper
 {
     [TestFixture]
-    public class PathMatchHelperTests
+    public class PathFounderHelperTests
     {
         [TestCase("/all")]
         [TestCase("/all/")]
@@ -28,7 +28,7 @@ namespace PlainApiGateway.UnitTests.Helper
             var sourcePathTemplate = "/{any}";
 
             //Act
-            var result = PathMatchHelper.IsMatch(sourcePathTemplate, requestPath);
+            var result = PathFounderHelper.IsMatch(sourcePathTemplate, requestPath);
 
             //Assert
             Assert.That(result, Is.True);
@@ -70,7 +70,7 @@ namespace PlainApiGateway.UnitTests.Helper
             var sourcePathTemplate = "/v{version}/{any}";
 
             //Act
-            var result = PathMatchHelper.IsMatch(sourcePathTemplate, requestPath);
+            var result = PathFounderHelper.IsMatch(sourcePathTemplate, requestPath);
 
             //Assert
             Assert.That(result, Is.True);
@@ -88,7 +88,7 @@ namespace PlainApiGateway.UnitTests.Helper
             var sourcePathTemplate = "/post/{any}";
 
             //Act
-            var result = PathMatchHelper.IsMatch(sourcePathTemplate, requestPath);
+            var result = PathFounderHelper.IsMatch(sourcePathTemplate, requestPath);
 
             //Assert
             Assert.That(result, Is.True);
@@ -111,7 +111,7 @@ namespace PlainApiGateway.UnitTests.Helper
             var sourcePathTemplate = "/v{version}/post/{any}";
 
             //Act
-            var result = PathMatchHelper.IsMatch(sourcePathTemplate, requestPath);
+            var result = PathFounderHelper.IsMatch(sourcePathTemplate, requestPath);
 
             //Assert
             Assert.That(result, Is.True);
@@ -133,7 +133,7 @@ namespace PlainApiGateway.UnitTests.Helper
             var sourcePathTemplate = "/post/{any}";
 
             //Act
-            var result = PathMatchHelper.IsMatch(sourcePathTemplate, requestPath);
+            var result = PathFounderHelper.IsMatch(sourcePathTemplate, requestPath);
 
             //Assert
             Assert.That(result, Is.False);
@@ -163,7 +163,7 @@ namespace PlainApiGateway.UnitTests.Helper
             var sourcePathTemplate = "/v{version}/post/{any}";
 
             //Act
-            var result = PathMatchHelper.IsMatch(sourcePathTemplate, requestPath);
+            var result = PathFounderHelper.IsMatch(sourcePathTemplate, requestPath);
 
             //Assert
             Assert.That(result, Is.False);

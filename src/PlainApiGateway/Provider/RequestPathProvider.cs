@@ -26,28 +26,25 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(targetPathTemplate));
             }
 
-            string sourcePathTemplateRegex = GetSearchPathTemplateVariablesRegex(sourcePathTemplate);
+            string searchSourcePathTemplateVariablesRegex = GetSearchPathTemplateVariablesRegex(sourcePathTemplate);
 
-            var matches = GetPathVariablesMatches(httpRequestPath, sourcePathTemplateRegex);
-            if (!matches.Any())
+            var matches = GetPathTemplateVariablesMatches(httpRequestPath, searchSourcePathTemplateVariablesRegex);
+
+            var sourcePathTemplateVariables = GetPathVariables(matches);
+
+            var requestPath = string.Empty;
+            if (!sourcePathTemplateVariables.Any())
             {
-                throw new ArgumentException(nameof(httpRequestPath));
+                requestPath = RemoveVariablePlaceholderFromTargetPathTemplate(targetPathTemplate);
+                return requestPath;
             }
 
-            if (string.Equals(matches[0].Value, httpRequestPath))
+            foreach (var pathVariable in sourcePathTemplateVariables)
             {
-                return httpRequestPath;
+                requestPath = ReplaceVariableInPathTemplate(targetPathTemplate, pathVariable);
             }
 
-            var pathVariables = GetPathVariables(matches);
-
-            string requestPathUri = string.Empty;
-            foreach (var pathVariable in pathVariables)
-            {
-                requestPathUri = ReplacePathTemplateWithVariable(targetPathTemplate, pathVariable);
-            }
-
-            return requestPathUri;
+            return requestPath;
         }
 
         private static string GetSearchPathTemplateVariablesRegex(string sourcePathTemplate)
@@ -55,9 +52,15 @@ namespace PlainApiGateway.Provider
             return Regex.Replace(sourcePathTemplate, RoutePath.VariableRegex, RoutePath.AnyCharacterRegex, RegexOptions.Compiled);
         }
 
-        private static MatchCollection GetPathVariablesMatches(string httpRequestPath, string sourcePathTemplateRegex)
+        private static MatchCollection GetPathTemplateVariablesMatches(string httpRequestPath, string sourcePathTemplateRegex)
         {
-            return Regex.Matches(httpRequestPath, sourcePathTemplateRegex, RegexOptions.Compiled);
+            var matches = Regex.Matches(httpRequestPath, sourcePathTemplateRegex, RegexOptions.Compiled);
+            if (!matches.Any())
+            {
+                throw new ArgumentException(nameof(httpRequestPath));
+            }
+
+            return matches;
         }
 
         private static List<string> GetPathVariables(MatchCollection matches)
@@ -69,7 +72,12 @@ namespace PlainApiGateway.Provider
                 .ToList();
         }
 
-        private static string ReplacePathTemplateWithVariable(string targetPathTemplate, string pathVariable)
+        private static string RemoveVariablePlaceholderFromTargetPathTemplate(string targetPathTemplate)
+        {
+            return Regex.Replace(targetPathTemplate, RoutePath.VariableRegex, string.Empty, RegexOptions.Compiled);
+        }
+
+        private static string ReplaceVariableInPathTemplate(string targetPathTemplate, string pathVariable)
         {
             return Regex.Replace(targetPathTemplate, RoutePath.VariableRegex, pathVariable, RegexOptions.Compiled);
         }
