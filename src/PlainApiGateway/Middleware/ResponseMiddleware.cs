@@ -5,15 +5,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-using PlainApiGateway.Context;
+using PlainApiGateway.Domain.Entity;
 using PlainApiGateway.Extension;
-using PlainApiGateway.Model;
 
 namespace PlainApiGateway.Middleware
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class ResponseMiddleware
     {
         private readonly RequestDelegate next;
+
+        private HttpContext httpContext;
+
+        private PlainHttpContext plainHttpContext;
 
         public ResponseMiddleware(RequestDelegate next)
         {
@@ -22,46 +26,48 @@ namespace PlainApiGateway.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            await this.next(context);
+            this.httpContext = context;
 
-            var plainContext = context.GetPlainContext();
+            await this.next(this.httpContext);
 
-            SetStatusCode(context, plainContext);
+            this.plainHttpContext = this.httpContext.GetPlainHttpContext();
 
-            SetHeaders(context, plainContext);
+            this.SetStatusCode();
 
-            await CopyContent(context, plainContext);
+            this.SetHeaders();
+
+            await this.CopyContent();
         }
 
-        private static void SetStatusCode(HttpContext context, PlainContext plainContext)
+        private void SetStatusCode()
         {
-            if (!context.Response.HasStarted)
+            if (!this.httpContext.Response.HasStarted)
             {
-                context.Response.StatusCode = (int)plainContext.Response.StatusCode;
+                this.httpContext.Response.StatusCode = (int)this.plainHttpContext.Response.StatusCode;
             }
         }
 
-        private static void SetHeaders(HttpContext context, PlainContext plainContext)
+        private void SetHeaders()
         {
-            var contentLengthHeader = CreateContentLengthHeader(plainContext);
-            SetHeader(context.Response, contentLengthHeader);
+            var contentLengthHeader = this.CreateContentLengthHeader();
+            this.SetHeader(this.httpContext.Response, contentLengthHeader);
 
-            foreach (var header in plainContext.Response.Content.Headers)
+            foreach (var header in this.plainHttpContext.Response.Content.Headers)
             {
-                if (!context.Response.Headers.ContainsKey(header.Key))
+                if (!this.httpContext.Response.Headers.ContainsKey(header.Key))
                 {
-                    context.Response.Headers.Add(header.Key, new StringValues(header.Value.ToArray()));
+                    this.httpContext.Response.Headers.Add(header.Key, new StringValues(header.Value.ToArray()));
                 }
             }
         }
 
-        private static Header CreateContentLengthHeader(PlainContext plainContext)
+        private PlainHttpHeader CreateContentLengthHeader()
         {
-            string[] contentLengthValue = { plainContext.Response.Content.Headers.ContentLength.ToString() };
-            return new Header(HeaderNames.ContentLength, contentLengthValue);
+            string[] contentLengthValue = { this.plainHttpContext.Response.Content.Headers.ContentLength.ToString() };
+            return new PlainHttpHeader(HeaderNames.ContentLength, contentLengthValue);
         }
 
-        private static void SetHeader(HttpResponse response, Header header)
+        private void SetHeader(HttpResponse response, PlainHttpHeader header)
         {
             if (!response.Headers.ContainsKey(header.Key))
             {
@@ -69,16 +75,16 @@ namespace PlainApiGateway.Middleware
             }
         }
 
-        private static async Task CopyContent(HttpContext context, PlainContext plainContext)
+        private async Task CopyContent()
         {
-            if (plainContext.Response.Content == null)
+            if (this.plainHttpContext.Response.Content == null)
             {
                 return;
             }
 
-            using (var contentStream = await plainContext.Response.Content.ReadAsStreamAsync())
+            using (var contentStream = await this.plainHttpContext.Response.Content.ReadAsStreamAsync())
             {
-                await contentStream.CopyToAsync(context.Response.Body);
+                await contentStream.CopyToAsync(this.httpContext.Response.Body);
             }
         }
     }

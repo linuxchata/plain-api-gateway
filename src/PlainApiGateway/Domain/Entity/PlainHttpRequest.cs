@@ -2,9 +2,9 @@
 
 using Microsoft.AspNetCore.Http;
 
-namespace PlainApiGateway.Context
+namespace PlainApiGateway.Domain.Entity
 {
-    public sealed class RequestContext
+    public sealed class PlainHttpRequest
     {
         public IHeaderDictionary Headers { get; set; }
 
@@ -21,19 +21,5 @@ namespace PlainApiGateway.Context
         public string QueryString { get; set; }
 
         public ushort TimeoutInSeconds { get; set; }
-
-        public string GetUrl()
-        {
-            var urlBuilder = new UriBuilder
-            {
-                Scheme = this.Scheme,
-                Host = this.Host,
-                Port = this.Port,
-                Path = this.Path,
-                Query = this.QueryString
-            };
-
-            return urlBuilder.Uri.ToString();
-        }
     }
 }

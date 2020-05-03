@@ -4,11 +4,11 @@ using System.Linq;
 
 using Microsoft.Extensions.Primitives;
 
-namespace PlainApiGateway.Model
+namespace PlainApiGateway.Domain.Entity
 {
-    public sealed class Header
+    public sealed class PlainHttpHeader
     {
-        public Header(string key, IEnumerable<string> values)
+        public PlainHttpHeader(string key, IEnumerable<string> values)
         {
             if (string.IsNullOrWhiteSpace(key))
             {

@@ -3,7 +3,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Context;
+using PlainApiGateway.Domain.Entity;
 using PlainApiGateway.Repository;
 
 namespace PlainApiGateway.Provider
@@ -26,7 +26,7 @@ namespace PlainApiGateway.Provider
             this.requestPathProvider = requestPathProvider;
         }
 
-        public RequestContext Create(HttpRequest httpRequest)
+        public PlainHttpRequest Create(HttpRequest httpRequest)
         {
             if (httpRequest == null)
             {
@@ -43,7 +43,7 @@ namespace PlainApiGateway.Provider
 
             var address = routeConfiguration.Target.Addresses.First();
 
-            var request = new RequestContext
+            var request = new PlainHttpRequest
             {
                 Headers = httpRequest.Headers,
                 Method = httpRequest.Method,

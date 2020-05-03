@@ -1,17 +1,23 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
+using PlainApiGateway.Domain.Entity;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Handler;
+using PlainApiGateway.Helper;
 using PlainApiGateway.Provider;
 using PlainApiGateway.Wrapper;
 
 namespace PlainApiGateway.Middleware
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class RequestRedirectMiddleware
     {
         private readonly RequestDelegate next;
+
+        private HttpContext httpContext;
 
         private readonly IHttpRequestProvider httpRequestProvider;
 
@@ -29,24 +35,55 @@ namespace PlainApiGateway.Middleware
 
         public async Task InvokeAsync(HttpContext context, IErrorHandler errorHandler)
         {
-            var request = this.httpRequestProvider.Create(context.Request);
-            if (request == null)
+            this.httpContext = context;
+
+            var plainHttpRequest = this.CreatePlainHttpRequest();
+            if (this.IsRequestValid(plainHttpRequest))
             {
-                errorHandler.SetRouteNotFoundErrorResponse(context);
+                SetRouteNotFoundErrorResponse(errorHandler);
                 return;
             }
 
+            var response = await this.SendHttpRequest(plainHttpRequest);
+
+            this.AssignResponseToHttpContext(response);
+
+            await this.next(this.httpContext);
+        }
+
+        private PlainHttpRequest CreatePlainHttpRequest()
+        {
+            return this.httpRequestProvider.Create(this.httpContext.Request);
+        }
+
+        private bool IsRequestValid(PlainHttpRequest plainHttpRequest)
+        {
+            return plainHttpRequest == null;
+        }
+
+        private void SetRouteNotFoundErrorResponse(IErrorHandler errorHandler)
+        {
+            errorHandler.SetRouteNotFoundErrorResponse(this.httpContext);
+        }
+
+        private async Task<HttpResponseMessage> SendHttpRequest(PlainHttpRequest plainHttpRequest)
+        {
+            string requestUrl = PlainHttpRequestHelper.GetUrl(plainHttpRequest);
+
             var response = await this.httpClientWrapper.SendRequest(
-                request.GetUrl(),
-                context.Request.Method,
-                context.Request.Body,
-                request.Headers,
-                request.TimeoutInSeconds);
+                requestUrl,
+                this.httpContext.Request.Method,
+                this.httpContext.Request.Body,
+                plainHttpRequest.Headers,
+                plainHttpRequest.TimeoutInSeconds);
 
-            var plainContext = context.GetPlainContext();
-            plainContext.Response = response;
+            return response;
+        }
 
-            await this.next(context);
+        private void AssignResponseToHttpContext(HttpResponseMessage response)
+        {
+            var plainHttpContext = this.httpContext.CreatePlainHttpContext();
+            plainHttpContext.Response = response;
         }
     }
 }

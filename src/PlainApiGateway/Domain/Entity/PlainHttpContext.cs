@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 
-namespace PlainApiGateway.Context
+namespace PlainApiGateway.Domain.Entity
 {
-    public sealed class PlainContext
+    public sealed class PlainHttpContext
     {
         public HttpResponseMessage Response { get; set; }
     }

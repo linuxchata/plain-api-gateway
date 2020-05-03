@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Context;
+using PlainApiGateway.Domain.Entity;
 
 namespace PlainApiGateway.Provider
 {
     public interface IHttpRequestProvider
     {
         /// <summary>
-        /// Creates request context
+        /// Creates plain HTTP request
         /// </summary>
         /// <param name="httpRequest">HTTP request</param>
-        /// <returns>Returns request context</returns>
-        RequestContext Create(HttpRequest httpRequest);
+        /// <returns>Returns plain HTTP request</returns>
+        PlainHttpRequest Create(HttpRequest httpRequest);
     }
 }
