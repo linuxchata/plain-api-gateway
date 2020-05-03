@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 
+using PlainApiGateway.Domain.Entity.Configuration;
+
 namespace PlainApiGateway.Configuration
 {
     public interface IPlainConfigurationReader

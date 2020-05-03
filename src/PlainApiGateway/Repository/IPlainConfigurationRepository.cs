@@ -1,4 +1,4 @@
-﻿using PlainApiGateway.Configuration;
+﻿using PlainApiGateway.Domain.Entity.Configuration;
 
 namespace PlainApiGateway.Repository
 {

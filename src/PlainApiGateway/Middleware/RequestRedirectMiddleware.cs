@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Domain.Entity;
+using PlainApiGateway.Domain.Entity.Http;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Helper;

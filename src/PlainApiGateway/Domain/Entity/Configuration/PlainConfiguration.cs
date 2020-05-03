@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PlainApiGateway.Configuration
+namespace PlainApiGateway.Domain.Entity.Configuration
 {
     public sealed class PlainConfiguration
     {

@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
 
-using Microsoft.AspNetCore.Http;
-
-namespace PlainApiGateway.Domain.Entity
+namespace PlainApiGateway.Domain.Entity.Http
 {
     public sealed class PlainHttpRequest
     {

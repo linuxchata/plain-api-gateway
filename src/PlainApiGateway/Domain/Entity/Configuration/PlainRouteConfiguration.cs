@@ -1,4 +1,4 @@
-﻿namespace PlainApiGateway.Configuration
+﻿namespace PlainApiGateway.Domain.Entity.Configuration
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class PlainRouteConfiguration

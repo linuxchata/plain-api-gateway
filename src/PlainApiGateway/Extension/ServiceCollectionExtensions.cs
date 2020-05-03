@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using PlainApiGateway.Configuration;
+using PlainApiGateway.Domain.Entity.Configuration;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Provider;
 using PlainApiGateway.Repository;

@@ -2,7 +2,7 @@
 
 using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Configuration;
+using PlainApiGateway.Domain.Entity.Configuration;
 
 namespace PlainApiGateway.Provider
 {

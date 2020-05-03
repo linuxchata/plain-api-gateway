@@ -3,6 +3,8 @@ using System.Linq;
 
 using Microsoft.Extensions.Configuration;
 
+using PlainApiGateway.Domain.Entity.Configuration;
+
 namespace PlainApiGateway.Configuration
 {
     public sealed class PlainConfigurationReader : IPlainConfigurationReader

@@ -3,7 +3,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Domain.Entity;
+using PlainApiGateway.Domain.Entity.Http;
 using PlainApiGateway.Repository;
 
 namespace PlainApiGateway.Provider
