@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Builder;
 
 using PlainApiGateway.Middleware;
 
-namespace PlainApiGateway
+namespace PlainApiGateway.Extension
 {
     public static class PlainMiddlewareExtension
     {

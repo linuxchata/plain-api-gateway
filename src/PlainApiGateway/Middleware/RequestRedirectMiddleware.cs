@@ -17,11 +17,11 @@ namespace PlainApiGateway.Middleware
     {
         private readonly RequestDelegate next;
 
-        private HttpContext httpContext;
-
         private readonly IHttpRequestProvider httpRequestProvider;
 
         private readonly IHttpClientWrapper httpClientWrapper;
+
+        private HttpContext httpContext;
 
         public RequestRedirectMiddleware(
             RequestDelegate next,
