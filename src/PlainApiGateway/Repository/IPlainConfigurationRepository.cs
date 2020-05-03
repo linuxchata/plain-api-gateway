@@ -11,7 +11,7 @@ namespace PlainApiGateway.Repository
         PlainConfiguration Get();
 
         /// <summary>
-        /// Add configuration
+        /// Adds configuration
         /// </summary>
         /// <param name="plainConfiguration">The configuration</param>
         void Add(PlainConfiguration plainConfiguration);

@@ -6,21 +6,23 @@ using Microsoft.Extensions.Configuration;
 
 using NUnit.Framework;
 
-using PlainApiGateway.Configuration;
+using PlainApiGateway.Provider.Configuration;
 
-namespace PlainApiGateway.UnitTests.Configuration
+namespace PlainApiGateway.UnitTests.Provider.Configuration
 {
     [TestFixture]
-    public class PlainConfigurationReaderTests
+    public class PlainConfigurationProviderTests
     {
         private const ushort DefaultTimeoutInSeconds = 30;
 
-        private PlainConfigurationReader sut;
+        private const string ConfigurationFileName = "plainsettings.json";
+
+        private PlainConfigurationProvider sut;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            this.sut = new PlainConfigurationReader();
+            this.sut = new PlainConfigurationProvider();
         }
 
         [Test]
@@ -51,7 +53,7 @@ namespace PlainApiGateway.UnitTests.Configuration
             //Arrange
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("plainsettings.json")
+                .AddJsonFile(ConfigurationFileName)
                 .AddInMemoryCollection(new Dictionary<string, string>
                 {
                     { "TimeoutInSeconds", null }
@@ -76,7 +78,7 @@ namespace PlainApiGateway.UnitTests.Configuration
             //Arrange
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("plainsettings.json")
+                .AddJsonFile(ConfigurationFileName)
                 .Build();
 
             //Act

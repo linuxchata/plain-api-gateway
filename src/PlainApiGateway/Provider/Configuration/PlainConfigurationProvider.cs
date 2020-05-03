@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 using PlainApiGateway.Domain.Entity.Configuration;
 
-namespace PlainApiGateway.Configuration
+namespace PlainApiGateway.Provider.Configuration
 {
-    public sealed class PlainConfigurationReader : IPlainConfigurationReader
+    public sealed class PlainConfigurationProvider : IPlainConfigurationProvider
     {
         private const ushort DefaultTimeoutInSeconds = 30;
 
@@ -23,7 +23,7 @@ namespace PlainApiGateway.Configuration
 
             if (plainConfiguration.Routes == null || !plainConfiguration.Routes.Any())
             {
-                throw new InvalidOperationException("Routes plain configuration cannot be read");
+                throw new InvalidOperationException("Plain configuration routes cannot be read");
             }
 
             if (!plainConfiguration.TimeoutInSeconds.HasValue)

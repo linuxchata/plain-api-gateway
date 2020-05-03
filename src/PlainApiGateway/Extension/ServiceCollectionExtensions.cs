@@ -3,10 +3,10 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using PlainApiGateway.Configuration;
 using PlainApiGateway.Domain.Entity.Configuration;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Provider;
+using PlainApiGateway.Provider.Configuration;
 using PlainApiGateway.Repository;
 using PlainApiGateway.Wrapper;
 
@@ -51,8 +51,8 @@ namespace PlainApiGateway.Extension
 
         private static PlainConfiguration ReadConfiguration(IConfiguration configuration)
         {
-            var plainConfigurationReader = new PlainConfigurationReader();
-            return plainConfigurationReader.Read(configuration);
+            var plainConfigurationProvider = new PlainConfigurationProvider();
+            return plainConfigurationProvider.Read(configuration);
         }
 
         private static void RegisterConfigurationRepository(IServiceCollection services, PlainConfiguration plainConfiguration)

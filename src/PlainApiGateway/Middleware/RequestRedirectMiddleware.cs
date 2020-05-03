@@ -40,7 +40,7 @@ namespace PlainApiGateway.Middleware
             var plainHttpRequest = this.CreatePlainHttpRequest();
             if (this.IsRequestValid(plainHttpRequest))
             {
-                SetRouteNotFoundErrorResponse(errorHandler);
+                this.SetRouteNotFoundErrorResponse(errorHandler);
                 return;
             }
 

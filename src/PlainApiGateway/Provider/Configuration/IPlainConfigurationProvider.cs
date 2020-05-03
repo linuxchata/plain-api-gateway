@@ -2,15 +2,15 @@
 
 using PlainApiGateway.Domain.Entity.Configuration;
 
-namespace PlainApiGateway.Configuration
+namespace PlainApiGateway.Provider.Configuration
 {
-    public interface IPlainConfigurationReader
+    public interface IPlainConfigurationProvider
     {
         /// <summary>
-        /// Reads configuration
+        /// Reads plain configuration
         /// </summary>
         /// <param name="configuration">The configuration</param>
-        /// <returns>Returns configuration</returns>
+        /// <returns>Returns plain configuration</returns>
         PlainConfiguration Read(IConfiguration configuration);
     }
 }
