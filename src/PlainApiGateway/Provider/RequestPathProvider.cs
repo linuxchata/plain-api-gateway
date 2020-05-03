@@ -26,7 +26,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(targetPathTemplate));
             }
 
-            string searchSourcePathTemplateVariablesRegex = GetSearchPathTemplateVariablesRegex(sourcePathTemplate);
+            var searchSourcePathTemplateVariablesRegex = GetSearchPathTemplateVariablesRegex(sourcePathTemplate);
 
             var matches = GetPathTemplateVariablesMatches(httpRequestPath, searchSourcePathTemplateVariablesRegex);
 
