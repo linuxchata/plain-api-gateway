@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 
 using PlainApiGateway.Domain.Entity.Configuration;
@@ -37,34 +38,38 @@ namespace PlainApiGateway.Provider.Configuration
             if (routeConfiguration == null)
             {
                 this.logger.LogWarning(
-                    "No route configuration was found for {method} request to path {path}",
+                    "No route configuration was found for {method} request to URL {url}",
                     httpRequest.Method,
-                    httpRequest.Path);
+                    httpRequest.GetDisplayUrl());
+
                 return null;
             }
 
             if (!IsHttpMethodAllowed(httpRequest.Method, routeConfiguration.Source.HttpMethods))
             {
                 this.logger.LogWarning(
-                    "No allowed HTTP methods were found for {method} request to path {path}",
+                    "No allowed HTTP methods were found for {method} request to URL {url}",
                     httpRequest.Method,
-                    httpRequest.Path);
+                    httpRequest.GetDisplayUrl());
+
                 return null;
             }
 
             if (!routeConfiguration.Target.Addresses?.Any() ?? true)
             {
                 this.logger.LogWarning(
-                    "No target addresses were found for {method} request to path {path}",
+                    "No target addresses were found for {method} request to URL {url}",
                     httpRequest.Method,
-                    httpRequest.Path);
+                    httpRequest.GetDisplayUrl());
+
                 return null;
             }
 
             this.logger.LogDebug(
-                "Route configuration has been found for {method} request to path {path}",
+                "Route configuration has been found for {method} request to URL {url}",
                 httpRequest.Method,
-                httpRequest.Path);
+                httpRequest.GetDisplayUrl());
+
             return routeConfiguration;
         }
 

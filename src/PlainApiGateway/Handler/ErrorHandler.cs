@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace PlainApiGateway.Handler
@@ -17,9 +18,9 @@ namespace PlainApiGateway.Handler
             if (!context.Response.HasStarted)
             {
                 this.logger.LogWarning(
-                    "Corresponding route for {method} request to {path} path has not been found",
+                    "Corresponding route for {method} request to URL {url} has not been found",
                     context.Request.Method.ToUpper(),
-                    context.Request.Path);
+                    context.Request.GetDisplayUrl());
 
                 context.Response.StatusCode = StatusCodes.Status404NotFound;
             }

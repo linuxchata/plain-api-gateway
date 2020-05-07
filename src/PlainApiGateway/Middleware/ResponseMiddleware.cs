@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
@@ -97,8 +98,9 @@ namespace PlainApiGateway.Middleware
         private void LogResult()
         {
             this.logger.LogDebug(
-                "Response for {method} request has been mapped",
-                this.httpContext.Request.Method.ToUpper());
+                "Response for {method} request to URL {url} has been mapped",
+                this.httpContext.Request.Method.ToUpper(),
+                this.httpContext.Request.GetDisplayUrl());
         }
     }
 }
