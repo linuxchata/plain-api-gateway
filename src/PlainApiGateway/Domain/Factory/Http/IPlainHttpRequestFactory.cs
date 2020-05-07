@@ -2,9 +2,9 @@
 
 using PlainApiGateway.Domain.Entity.Http;
 
-namespace PlainApiGateway.Provider
+namespace PlainApiGateway.Domain.Factory.Http
 {
-    public interface IHttpRequestProvider
+    public interface IPlainHttpRequestFactory
     {
         /// <summary>
         /// Creates plain HTTP request

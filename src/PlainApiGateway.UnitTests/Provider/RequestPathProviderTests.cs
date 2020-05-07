@@ -2,19 +2,19 @@
 
 using NUnit.Framework;
 
-using PlainApiGateway.Provider;
+using PlainApiGateway.Provider.Http;
 
 namespace PlainApiGateway.UnitTests.Provider
 {
     [TestFixture]
     public class RequestPathProviderTests
     {
-        private RequestPathProvider sut;
+        private HttpRequestPathProvider sut;
 
         [SetUp]
         public void SetUp()
         {
-            this.sut = new RequestPathProvider();
+            this.sut = new HttpRequestPathProvider();
         }
 
         [TestCase(null)]

@@ -6,16 +6,16 @@ namespace PlainApiGateway.Repository
 {
     public sealed class PlainConfigurationRepository : IPlainConfigurationRepository
     {
-        private PlainConfiguration cache;
+        private PlainConfiguration plainConfigurationCache;
 
         public PlainConfiguration Get()
         {
-            if (this.cache == null)
+            if (this.plainConfigurationCache == null)
             {
-                throw new ArgumentNullException(nameof(this.cache));
+                throw new ArgumentNullException(nameof(this.plainConfigurationCache));
             }
 
-            return this.cache;
+            return this.plainConfigurationCache;
         }
 
         public void Add(PlainConfiguration plainConfiguration)
@@ -25,7 +25,7 @@ namespace PlainApiGateway.Repository
                 throw new ArgumentNullException(nameof(plainConfiguration));
             }
 
-            this.cache = plainConfiguration;
+            this.plainConfigurationCache = plainConfiguration;
         }
     }
 }

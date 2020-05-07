@@ -4,9 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using PlainApiGateway.Domain.Entity.Configuration;
+using PlainApiGateway.Domain.Factory.Http;
 using PlainApiGateway.Handler;
-using PlainApiGateway.Provider;
 using PlainApiGateway.Provider.Configuration;
+using PlainApiGateway.Provider.Http;
 using PlainApiGateway.Repository;
 using PlainApiGateway.Wrapper;
 
@@ -41,9 +42,9 @@ namespace PlainApiGateway.Extension
 
             services.AddTransient<IErrorHandler, ErrorHandler>();
 
-            services.AddTransient<IRequestRouteProvider, RequestRouteProvider>();
-            services.AddTransient<IRequestPathProvider, RequestPathProvider>();
-            services.AddTransient<IHttpRequestProvider, HttpRequestProvider>();
+            services.AddTransient<IPlainRouteConfigurationProvider, PlainRouteConfigurationProvider>();
+            services.AddTransient<IHttpRequestPathProvider, HttpRequestPathProvider>();
+            services.AddTransient<IPlainHttpRequestFactory, PlainHttpRequestFactory>();
             services.AddTransient<IHttpClientWrapper, HttpClientWrapper>();
 
             return services;

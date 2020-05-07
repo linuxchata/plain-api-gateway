@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 using PlainApiGateway.Domain.Entity.Http;
+using PlainApiGateway.Domain.Factory.Http;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Helper;
-using PlainApiGateway.Provider;
 using PlainApiGateway.Wrapper;
 
 namespace PlainApiGateway.Middleware
@@ -17,7 +17,7 @@ namespace PlainApiGateway.Middleware
     {
         private readonly RequestDelegate next;
 
-        private readonly IHttpRequestProvider httpRequestProvider;
+        private readonly IPlainHttpRequestFactory plainHttpRequestFactory;
 
         private readonly IHttpClientWrapper httpClientWrapper;
 
@@ -25,11 +25,11 @@ namespace PlainApiGateway.Middleware
 
         public RequestRedirectMiddleware(
             RequestDelegate next,
-            IHttpRequestProvider httpRequestProvider,
+            IPlainHttpRequestFactory plainHttpRequestFactory,
             IHttpClientWrapper httpClientWrapper)
         {
             this.next = next;
-            this.httpRequestProvider = httpRequestProvider;
+            this.plainHttpRequestFactory = plainHttpRequestFactory;
             this.httpClientWrapper = httpClientWrapper;
         }
 
@@ -53,7 +53,7 @@ namespace PlainApiGateway.Middleware
 
         private PlainHttpRequest CreatePlainHttpRequest()
         {
-            return this.httpRequestProvider.Create(this.httpContext.Request);
+            return this.plainHttpRequestFactory.Create(this.httpContext.Request);
         }
 
         private bool IsRequestValid(PlainHttpRequest plainHttpRequest)

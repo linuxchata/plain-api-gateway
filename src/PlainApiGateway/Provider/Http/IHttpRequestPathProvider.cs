@@ -1,6 +1,6 @@
-﻿namespace PlainApiGateway.Provider
+﻿namespace PlainApiGateway.Provider.Http
 {
-    public interface IRequestPathProvider
+    public interface IHttpRequestPathProvider
     {
         /// <summary>
         /// Gets request path

@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Http;
 using PlainApiGateway.Domain.Entity.Configuration;
 using PlainApiGateway.Helper;
 
-namespace PlainApiGateway.Provider
+namespace PlainApiGateway.Provider.Configuration
 {
-    public sealed class RequestRouteProvider : IRequestRouteProvider
+    public sealed class PlainRouteConfigurationProvider : IPlainRouteConfigurationProvider
     {
-        public PlainRouteConfiguration GetMatchingRouteConfiguration(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
+        public PlainRouteConfiguration GetMatchingRouteConfiguration(
+            List<PlainRouteConfiguration> routes,
+            HttpRequest httpRequest)
         {
             if (routes == null)
             {
@@ -23,7 +25,7 @@ namespace PlainApiGateway.Provider
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var routeConfiguration = routes.FirstOrDefault(a => PathFounderHelper.IsMatch(a.Source.PathTemplate, httpRequest.Path));
+            var routeConfiguration = GetRouteConfiguration(routes, httpRequest);
             if (routeConfiguration == null)
             {
                 return null;
@@ -40,6 +42,11 @@ namespace PlainApiGateway.Provider
             }
 
             return routeConfiguration;
+        }
+
+        private static PlainRouteConfiguration GetRouteConfiguration(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
+        {
+            return routes.FirstOrDefault(a => PathFounderHelper.IsMatch(a.Source.PathTemplate, httpRequest.Path));
         }
 
         private static bool IsHttpMethodAllowed(string httpRequestMethod, string[] httpMethods)

@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 
 using PlainApiGateway.Constant;
 
-namespace PlainApiGateway.Provider
+namespace PlainApiGateway.Provider.Http
 {
-    public sealed class RequestPathProvider : IRequestPathProvider
+    public sealed class HttpRequestPathProvider : IHttpRequestPathProvider
     {
         public string Get(string httpRequestPath, string sourcePathTemplate, string targetPathTemplate)
         {
