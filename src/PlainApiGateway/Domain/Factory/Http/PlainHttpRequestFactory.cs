@@ -37,7 +37,7 @@ namespace PlainApiGateway.Domain.Factory.Http
 
             var configuration = this.plainConfigurationRepository.Get();
 
-            var routeConfiguration = this.plainRouteConfigurationProvider.GetMatchingRouteConfiguration(configuration.Routes, httpRequest);
+            var routeConfiguration = this.plainRouteConfigurationProvider.GetMatching(configuration.Routes, httpRequest);
             if (routeConfiguration == null)
             {
                 return null;

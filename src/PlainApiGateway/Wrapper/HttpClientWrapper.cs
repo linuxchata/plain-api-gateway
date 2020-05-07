@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 namespace PlainApiGateway.Wrapper
@@ -13,9 +15,12 @@ namespace PlainApiGateway.Wrapper
     {
         private readonly IHttpClientFactory httpClientFactory;
 
-        public HttpClientWrapper(IHttpClientFactory httpClientFactory)
+        private readonly ILogger logger;
+
+        public HttpClientWrapper(IHttpClientFactory httpClientFactory, ILoggerFactory logFactory)
         {
             this.httpClientFactory = httpClientFactory;
+            this.logger = logFactory.CreateLogger<HttpClientWrapper>();
         }
 
         public async Task<HttpResponseMessage> SendRequest(
@@ -32,6 +37,8 @@ namespace PlainApiGateway.Wrapper
             var requestMessage = this.CreateHttpRequestMessage(requestUrl, httpMethod, requestBodyStream, headers);
 
             var response = await client.SendAsync(requestMessage);
+
+            this.LogResult(requestUrl, httpMethod, response.StatusCode);
 
             return response;
         }
@@ -102,6 +109,15 @@ namespace PlainApiGateway.Wrapper
                     requestMessage.Headers.Add(header.Key, new string[] { header.Value });
                 }
             }
+        }
+
+        private void LogResult(string requestUrl, string httpMethod, HttpStatusCode httpStatusCode)
+        {
+            this.logger.LogDebug(
+                "{httpMethod} request to URL {requestUrl} has been completed with status code {httpStatusCode}",
+                httpMethod,
+                requestUrl,
+                httpStatusCode);
         }
     }
 }

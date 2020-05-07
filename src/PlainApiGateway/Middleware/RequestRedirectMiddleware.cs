@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 using PlainApiGateway.Domain.Entity.Http;
 using PlainApiGateway.Domain.Factory.Http;
@@ -21,16 +22,20 @@ namespace PlainApiGateway.Middleware
 
         private readonly IHttpClientWrapper httpClientWrapper;
 
+        private readonly ILogger logger;
+
         private HttpContext httpContext;
 
         public RequestRedirectMiddleware(
             RequestDelegate next,
             IPlainHttpRequestFactory plainHttpRequestFactory,
-            IHttpClientWrapper httpClientWrapper)
+            IHttpClientWrapper httpClientWrapper,
+            ILoggerFactory logFactory)
         {
             this.next = next;
             this.plainHttpRequestFactory = plainHttpRequestFactory;
             this.httpClientWrapper = httpClientWrapper;
+            this.logger = logFactory.CreateLogger<RequestRedirectMiddleware>();
         }
 
         public async Task InvokeAsync(HttpContext context, IErrorHandler errorHandler)
@@ -53,7 +58,14 @@ namespace PlainApiGateway.Middleware
 
         private PlainHttpRequest CreatePlainHttpRequest()
         {
-            return this.plainHttpRequestFactory.Create(this.httpContext.Request);
+            var request = this.plainHttpRequestFactory.Create(this.httpContext.Request);
+
+            this.logger.LogDebug(
+                "{method} request has been created for path {path}",
+                request.Method.ToUpper(),
+                request.Path);
+
+            return request;
         }
 
         private bool IsRequestValid(PlainHttpRequest plainHttpRequest)
@@ -76,6 +88,12 @@ namespace PlainApiGateway.Middleware
                 this.httpContext.Request.Body,
                 plainHttpRequest.Headers,
                 plainHttpRequest.TimeoutInSeconds);
+
+            this.logger.LogDebug(
+                "{method} request has been send to URL {requestUrl}. Response status code {statusCode}",
+                this.httpContext.Request.Method.ToUpper(),
+                requestUrl,
+                response.StatusCode);
 
             return response;
         }

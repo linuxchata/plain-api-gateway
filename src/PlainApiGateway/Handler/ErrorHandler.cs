@@ -17,7 +17,7 @@ namespace PlainApiGateway.Handler
             if (!context.Response.HasStarted)
             {
                 this.logger.LogWarning(
-                    "Corresponding route for {method} request to [{path}] path has not been found",
+                    "Corresponding route for {method} request to {path} path has not been found",
                     context.Request.Method.ToUpper(),
                     context.Request.Path);
 

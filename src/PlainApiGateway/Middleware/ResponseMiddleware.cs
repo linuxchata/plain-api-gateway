@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
@@ -15,13 +16,16 @@ namespace PlainApiGateway.Middleware
     {
         private readonly RequestDelegate next;
 
+        private readonly ILogger logger;
+
         private HttpContext httpContext;
 
         private PlainHttpContext plainHttpContext;
 
-        public ResponseMiddleware(RequestDelegate next)
+        public ResponseMiddleware(RequestDelegate next, ILoggerFactory logFactory)
         {
             this.next = next;
+            this.logger = logFactory.CreateLogger<ResponseMiddleware>();
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -37,6 +41,8 @@ namespace PlainApiGateway.Middleware
             this.SetHeaders();
 
             await this.CopyContent();
+
+            this.LogResult();
         }
 
         private void SetStatusCode()
@@ -86,6 +92,13 @@ namespace PlainApiGateway.Middleware
             {
                 await contentStream.CopyToAsync(this.httpContext.Response.Body);
             }
+        }
+
+        private void LogResult()
+        {
+            this.logger.LogDebug(
+                "Response for {method} request has been mapped",
+                this.httpContext.Request.Method.ToUpper());
         }
     }
 }

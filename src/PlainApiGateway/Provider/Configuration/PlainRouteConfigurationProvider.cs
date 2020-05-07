@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 using PlainApiGateway.Domain.Entity.Configuration;
 using PlainApiGateway.Helper;
@@ -11,7 +12,14 @@ namespace PlainApiGateway.Provider.Configuration
 {
     public sealed class PlainRouteConfigurationProvider : IPlainRouteConfigurationProvider
     {
-        public PlainRouteConfiguration GetMatchingRouteConfiguration(
+        private readonly ILogger logger;
+
+        public PlainRouteConfigurationProvider(ILoggerFactory logFactory)
+        {
+            this.logger = logFactory.CreateLogger<PlainRouteConfigurationProvider>();
+        }
+
+        public PlainRouteConfiguration GetMatching(
             List<PlainRouteConfiguration> routes,
             HttpRequest httpRequest)
         {
@@ -28,19 +36,35 @@ namespace PlainApiGateway.Provider.Configuration
             var routeConfiguration = GetRouteConfiguration(routes, httpRequest);
             if (routeConfiguration == null)
             {
+                this.logger.LogWarning(
+                    "No route configuration was found for {method} request to path {path}",
+                    httpRequest.Method,
+                    httpRequest.Path);
                 return null;
             }
 
             if (!IsHttpMethodAllowed(httpRequest.Method, routeConfiguration.Source.HttpMethods))
             {
+                this.logger.LogWarning(
+                    "No allowed HTTP methods were found for {method} request to path {path}",
+                    httpRequest.Method,
+                    httpRequest.Path);
                 return null;
             }
 
             if (!routeConfiguration.Target.Addresses?.Any() ?? true)
             {
+                this.logger.LogWarning(
+                    "No target addresses were found for {method} request to path {path}",
+                    httpRequest.Method,
+                    httpRequest.Path);
                 return null;
             }
 
+            this.logger.LogDebug(
+                "Route configuration has been found for {method} request to path {path}",
+                httpRequest.Method,
+                httpRequest.Path);
             return routeConfiguration;
         }
 
