@@ -16,6 +16,8 @@ jobs:
       run: dotnet build ./src/PlainApiGateway.sln --configuration Release
     - name: Test with dotnet
       run: dotnet test ./src/PlainApiGateway.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput="$github.workspace/lcov.info"
+    - name: Install coveralls.net
+      run: dotnet tool install --global coveralls.net --version 1.0.0
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
