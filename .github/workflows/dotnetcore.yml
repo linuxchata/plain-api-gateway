@@ -15,10 +15,4 @@ jobs:
     - name: Build with dotnet
       run: dotnet build ./src/PlainApiGateway.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test ./src/PlainApiGateway.sln --configuration Release /p:CollectCoverage=true
-    - name: Install coveralls.net
-      run: dotnet tool install --global coveralls.net --version 1.0.0
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
