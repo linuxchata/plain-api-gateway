@@ -16,3 +16,7 @@ jobs:
       run: dotnet build ./src/PlainApiGateway.sln --configuration Release
     - name: Test with dotnet
       run: dotnet test ./src/PlainApiGateway.sln --configuration Release
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.coveralls_token }}
