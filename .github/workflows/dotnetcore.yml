@@ -15,7 +15,7 @@ jobs:
     - name: Build with dotnet
       run: dotnet build ./src/PlainApiGateway.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput="$github.workspace/lcov.info" ./src/PlainApiGateway.sln --configuration Release
+      run: dotnet test ./src/PlainApiGateway.sln --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput="$github.workspace/lcov.info"
     - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
