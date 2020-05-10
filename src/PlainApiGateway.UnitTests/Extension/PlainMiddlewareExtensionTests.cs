@@ -19,6 +19,10 @@ namespace PlainApiGateway.UnitTests.Extension
     [TestFixture]
     public class PlainMiddlewareExtensionTests
     {
+        private const int RequestRedirectMiddlewareIndex = 1;
+
+        private const int ResponseMiddlewareIndex = 3;
+
         private readonly List<string> requiredMiddlewares = new List<string>
         {
             typeof(RequestRedirectMiddleware).FullName,
@@ -34,7 +38,7 @@ namespace PlainApiGateway.UnitTests.Extension
         }
 
         [Test]
-        public void When_use_plain_api_gateway_Then_all_required_middlewares_are_registered()
+        public void When_use_plain_api_gateway_And_middleware_configuration_null_Then_all_required_middlewares_are_registered()
         {
             //Arrange
             var applicationBuilder = new ApplicationBuilder(this.serviceProviderMock.Object);
@@ -45,10 +49,52 @@ namespace PlainApiGateway.UnitTests.Extension
             //Assert
             Assert.That(applicationBuilder, Is.Not.Null);
 
-            this.AssertMiddlewares(applicationBuilder);
+            this.AssertRequiredMiddlewares(applicationBuilder);
         }
 
-        private void AssertMiddlewares(ApplicationBuilder applicationBuilder)
+        [Test]
+        public void When_use_plain_api_gateway_And_middleware_configuration_empty_Then_all_required_middlewares_are_registered()
+        {
+            //Arrange
+            var applicationBuilder = new ApplicationBuilder(this.serviceProviderMock.Object);
+
+            //Act
+            PlainMiddlewareExtension.UsePlainApiGateway(applicationBuilder, new PlainMiddlewareConfiguration());
+
+            //Assert
+            Assert.That(applicationBuilder, Is.Not.Null);
+
+            this.AssertRequiredMiddlewares(applicationBuilder);
+        }
+
+        [Test]
+        public void When_use_plain_api_gateway_And_with_middleware_configuration_Then_all_required_middlewares_are_registered()
+        {
+            //Arrange
+            var applicationBuilder = new ApplicationBuilder(this.serviceProviderMock.Object);
+
+            var plainMiddlewareConfiguration = new PlainMiddlewareConfiguration
+            {
+                PreRequestMiddleware = (context, next) => next(),
+                PreResponseMiddleware = (context, next) => next(),
+            };
+
+            //Act
+            PlainMiddlewareExtension.UsePlainApiGateway(applicationBuilder, plainMiddlewareConfiguration);
+
+            //Assert
+            Assert.That(applicationBuilder, Is.Not.Null);
+
+            var components = this.GetComponents(applicationBuilder);
+
+            string requestRedirectMiddlewareTypeName = this.GetMiddlewareTypeName(components[RequestRedirectMiddlewareIndex]);
+            Assert.That(requestRedirectMiddlewareTypeName, Is.EqualTo(typeof(RequestRedirectMiddleware).FullName));
+
+            string responseMiddlewareTypeName = this.GetMiddlewareTypeName(components[ResponseMiddlewareIndex]);
+            Assert.That(responseMiddlewareTypeName, Is.EqualTo(typeof(ResponseMiddleware).FullName));
+        }
+
+        private void AssertRequiredMiddlewares(ApplicationBuilder applicationBuilder)
         {
             var components = this.GetComponents(applicationBuilder);
             for (int i = 0; i < components.Count; i++)
