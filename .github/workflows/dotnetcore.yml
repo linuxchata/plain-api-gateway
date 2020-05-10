@@ -23,3 +23,7 @@ jobs:
       with:
         path-to-lcov: ${{ github.workspace }}/lcov.info
         github-token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@master
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
