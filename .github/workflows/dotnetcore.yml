@@ -15,4 +15,4 @@ jobs:
     - name: Build with dotnet
       run: dotnet build ./src/PlainApiGateway.sln --configuration Release
     - name: Test with dotnet
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=lcov
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info ./src/PlainApiGateway.sln --configuration Release
