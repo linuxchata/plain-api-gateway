@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using PlainApiGateway.Extension;
+using PlainApiGateway.Middleware;
 
 namespace PlainApiGateway.TestClient
 {
@@ -29,7 +30,14 @@ namespace PlainApiGateway.TestClient
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UsePlainApiGateway();
+            var plainMiddlewareConfiguration = new PlainMiddlewareConfiguration
+            {
+                PreResponseMiddleware = async (context, next) =>
+                {
+                    await next.Invoke();
+                }
+            };
+            app.UsePlainApiGateway(plainMiddlewareConfiguration);
         }
     }
 }
