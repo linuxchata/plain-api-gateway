@@ -39,6 +39,14 @@ namespace PlainApiGateway.UnitTests.Extension
         }
 
         [Test]
+        public void When_use_plain_api_gateway_And_application_builder_null_Then_throws_argument_null_exception()
+        {
+            //Act
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => PlainMiddlewareExtension.UsePlainApiGateway(null));
+        }
+
+        [Test]
         public void When_use_plain_api_gateway_And_middleware_configuration_null_Then_all_required_middlewares_are_registered()
         {
             //Arrange
