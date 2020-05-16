@@ -3,22 +3,22 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
+using PlainApiGateway.Cache;
 using PlainApiGateway.Provider.Configuration;
 using PlainApiGateway.Provider.Http;
-using PlainApiGateway.Repository;
 
 namespace PlainApiGateway.Domain.Http.Factory
 {
     public sealed class PlainHttpRequestFactory : IPlainHttpRequestFactory
     {
-        private readonly IPlainConfigurationRepository plainConfigurationRepository;
+        private readonly IPlainConfigurationCache plainConfigurationRepository;
 
         private readonly IPlainRouteConfigurationProvider plainRouteConfigurationProvider;
 
         private readonly IHttpRequestPathProvider httpRequestPathProvider;
 
         public PlainHttpRequestFactory(
-            IPlainConfigurationRepository plainConfigurationRepository,
+            IPlainConfigurationCache plainConfigurationRepository,
             IPlainRouteConfigurationProvider plainRouteConfigurationProvider,
             IHttpRequestPathProvider httpRequestPathProvider)
         {

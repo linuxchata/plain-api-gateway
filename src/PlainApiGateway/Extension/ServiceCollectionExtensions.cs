@@ -3,12 +3,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using PlainApiGateway.Cache;
 using PlainApiGateway.Configuration;
 using PlainApiGateway.Domain.Http.Factory;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Provider.Configuration;
 using PlainApiGateway.Provider.Http;
-using PlainApiGateway.Repository;
 using PlainApiGateway.Wrapper;
 
 namespace PlainApiGateway.Extension
@@ -16,7 +16,7 @@ namespace PlainApiGateway.Extension
     public static class ServiceCollectionExtensions
     {
         /// <summary>
-        /// Add Plain API gateway to collection of services
+        /// Adds Plain API gateway to collection of services
         /// </summary>
         /// <param name="services">Services collection</param>
         /// <param name="configuration">The configuration</param>
@@ -38,7 +38,7 @@ namespace PlainApiGateway.Extension
             services.AddLogging();
 
             var plainConfiguration = ReadConfiguration(configuration);
-            RegisterConfigurationRepository(services, plainConfiguration);
+            RegisterConfigurationCache(services, plainConfiguration);
 
             services.AddTransient<IErrorHandler, ErrorHandler>();
 
@@ -56,12 +56,12 @@ namespace PlainApiGateway.Extension
             return plainConfigurationProvider.Read(configuration);
         }
 
-        private static void RegisterConfigurationRepository(IServiceCollection services, PlainConfiguration plainConfiguration)
+        private static void RegisterConfigurationCache(IServiceCollection services, PlainConfiguration plainConfiguration)
         {
-            var plainConfigurationRepository = new PlainConfigurationRepository();
-            plainConfigurationRepository.Add(plainConfiguration);
+            var plainConfigurationCache = new PlainConfigurationCache();
+            plainConfigurationCache.Add(plainConfiguration);
 
-            services.AddSingleton<IPlainConfigurationRepository>(plainConfigurationRepository);
+            services.AddSingleton<IPlainConfigurationCache>(plainConfigurationCache);
         }
     }
 }

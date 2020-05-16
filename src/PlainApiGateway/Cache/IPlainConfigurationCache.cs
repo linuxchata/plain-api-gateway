@@ -1,8 +1,8 @@
 ﻿using PlainApiGateway.Configuration;
 
-namespace PlainApiGateway.Repository
+namespace PlainApiGateway.Cache
 {
-    public interface IPlainConfigurationRepository
+    public interface IPlainConfigurationCache
     {
         /// <summary>
         /// Gets configuration
