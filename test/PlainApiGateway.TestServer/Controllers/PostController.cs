@@ -12,7 +12,7 @@ namespace PlainApiGateway.TestServer.Controllers
     [ApiController]
     public sealed class PostController : ControllerBase
     {
-        private static readonly List<PostViewModel> Content = new List<PostViewModel>
+        private static readonly List<PostViewModel> Posts = new List<PostViewModel>
         {
             new PostViewModel
             {
@@ -34,7 +34,7 @@ namespace PlainApiGateway.TestServer.Controllers
         [ProducesResponseType(typeof(List<PostViewModel>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
-            return this.Ok(Content);
+            return this.Ok(Posts);
         }
 
         [HttpGet("allxml")]
@@ -42,14 +42,14 @@ namespace PlainApiGateway.TestServer.Controllers
         [ProducesResponseType(typeof(List<PostViewModel>), StatusCodes.Status200OK)]
         public IActionResult GetAllXml()
         {
-            return this.Ok(Content);
+            return this.Ok(Posts);
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status200OK)]
         public IActionResult GetById([FromRoute]int id)
         {
-            var post = Content.FirstOrDefault(a => a.Id == id);
+            var post = Posts.FirstOrDefault(a => a.Id == id);
             if (post == null)
             {
                 return this.NotFound();
@@ -62,7 +62,7 @@ namespace PlainApiGateway.TestServer.Controllers
         [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status200OK)]
         public IActionResult GetByUserId([FromQuery(Name = "userId")]int userId)
         {
-            var posts = Content.Where(a => a.UserId == userId).ToList();
+            var posts = Posts.Where(a => a.UserId == userId).ToList();
 
             return this.Ok(posts);
         }
@@ -78,13 +78,13 @@ namespace PlainApiGateway.TestServer.Controllers
                 return this.BadRequest();
             }
 
-            bool doesPostExist = Content.Any(a => a.Id == post.Id);
+            bool doesPostExist = Posts.Any(a => a.Id == post.Id);
             if (doesPostExist)
             {
                 return this.Conflict();
             }
 
-            Content.Add(post);
+            Posts.Add(post);
 
             return this.NoContent();
         }
@@ -100,14 +100,14 @@ namespace PlainApiGateway.TestServer.Controllers
                 return this.BadRequest();
             }
 
-            var postToEdit = Content.FirstOrDefault(a => a.Id == post.Id);
+            var postToEdit = Posts.FirstOrDefault(a => a.Id == post.Id);
             if (postToEdit == null)
             {
                 return this.NotFound();
             }
 
-            Content.Remove(postToEdit);
-            Content.Add(post);
+            Posts.Remove(postToEdit);
+            Posts.Add(post);
 
             return this.NoContent();
         }
@@ -117,13 +117,13 @@ namespace PlainApiGateway.TestServer.Controllers
         [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status204NoContent)]
         public IActionResult Delete([FromRoute]int id)
         {
-            var postToEdit = Content.FirstOrDefault(a => a.Id == id);
+            var postToEdit = Posts.FirstOrDefault(a => a.Id == id);
             if (postToEdit == null)
             {
                 return this.NotFound();
             }
 
-            Content.Remove(postToEdit);
+            Posts.Remove(postToEdit);
 
             return this.NoContent();
         }
