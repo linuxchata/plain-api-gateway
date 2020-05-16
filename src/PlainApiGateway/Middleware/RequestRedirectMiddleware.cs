@@ -60,12 +60,6 @@ namespace PlainApiGateway.Middleware
         {
             var request = this.plainHttpRequestFactory.Create(this.httpContext.Request);
 
-            this.logger.LogDebug(
-                "{method} request has been created for path {path} and query string {queryString}",
-                request.Method.ToUpper(),
-                request.Path,
-                request.QueryString);
-
             return request;
         }
 

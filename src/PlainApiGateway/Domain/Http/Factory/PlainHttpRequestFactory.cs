@@ -2,6 +2,7 @@
 using System.Linq;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 using PlainApiGateway.Cache;
 using PlainApiGateway.Provider.Configuration;
@@ -17,14 +18,18 @@ namespace PlainApiGateway.Domain.Http.Factory
 
         private readonly IHttpRequestPathProvider httpRequestPathProvider;
 
+        private readonly ILogger logger;
+
         public PlainHttpRequestFactory(
             IPlainConfigurationCache plainConfigurationRepository,
             IPlainRouteConfigurationProvider plainRouteConfigurationProvider,
-            IHttpRequestPathProvider httpRequestPathProvider)
+            IHttpRequestPathProvider httpRequestPathProvider,
+            ILoggerFactory logFactory)
         {
             this.plainConfigurationRepository = plainConfigurationRepository;
             this.plainRouteConfigurationProvider = plainRouteConfigurationProvider;
             this.httpRequestPathProvider = httpRequestPathProvider;
+            this.logger = logFactory.CreateLogger<PlainHttpRequestFactory>();
         }
 
         public PlainHttpRequest Create(HttpRequest httpRequest)
@@ -57,6 +62,12 @@ namespace PlainApiGateway.Domain.Http.Factory
                 // ReSharper disable once PossibleInvalidOperationException
                 TimeoutInSeconds = configuration.TimeoutInSeconds.Value
             };
+
+            this.logger.LogDebug(
+                "{method} request has been created for path {path} and query string {queryString}",
+                request.Method.ToUpper(),
+                request.Path,
+                request.QueryString);
 
             return request;
         }

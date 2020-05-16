@@ -4,8 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using PlainApiGateway.Configuration;
 using PlainApiGateway.Extension;
-using PlainApiGateway.Middleware;
 
 namespace PlainApiGateway.TestClient
 {
