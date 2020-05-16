@@ -3,7 +3,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-using PlainApiGateway.Domain.Entity.Configuration;
+using PlainApiGateway.Configuration;
 using PlainApiGateway.Domain.Factory.Http;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Provider.Configuration;

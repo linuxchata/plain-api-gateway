@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 
-using PlainApiGateway.Domain.Entity.Configuration;
+using PlainApiGateway.Configuration;
 using PlainApiGateway.Helper;
 
 namespace PlainApiGateway.Provider.Configuration

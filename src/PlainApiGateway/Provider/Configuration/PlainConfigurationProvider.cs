@@ -3,7 +3,7 @@ using System.Linq;
 
 using Microsoft.Extensions.Configuration;
 
-using PlainApiGateway.Domain.Entity.Configuration;
+using PlainApiGateway.Configuration;
 
 namespace PlainApiGateway.Provider.Configuration
 {
