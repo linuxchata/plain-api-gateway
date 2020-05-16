@@ -46,6 +46,7 @@ namespace PlainApiGateway.Domain.Http.Factory
 
             var request = new PlainHttpRequest
             {
+                Id = Guid.NewGuid(),
                 Headers = httpRequest.Headers,
                 Method = httpRequest.Method,
                 Scheme = routeConfiguration.Target.Scheme,

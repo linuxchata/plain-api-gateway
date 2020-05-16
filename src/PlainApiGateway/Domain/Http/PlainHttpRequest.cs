@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+
+using Microsoft.AspNetCore.Http;
 
 namespace PlainApiGateway.Domain.Http
 {
     public sealed class PlainHttpRequest
     {
+        public Guid Id { get; set; }
+
         public IHeaderDictionary Headers { get; set; }
 
         public string Method { get; set; }

@@ -102,7 +102,7 @@ namespace PlainApiGateway.Middleware
         private void AssignResponseToHttpContext(HttpResponseMessage response)
         {
             var plainHttpContext = this.httpContext.CreatePlainHttpContext();
-            plainHttpContext.Response = response;
+            plainHttpContext.SetResponse(response);
         }
     }
 }
