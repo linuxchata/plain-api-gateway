@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace PlainApiGateway.Domain.Entity.Http
+namespace PlainApiGateway.Domain.Http
 {
     public sealed class PlainHttpRequest
     {

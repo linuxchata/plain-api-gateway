@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-using PlainApiGateway.Domain.Entity.Http;
-using PlainApiGateway.Domain.Factory.Http;
+using PlainApiGateway.Domain.Http;
+using PlainApiGateway.Domain.Http.Factory;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Helper;

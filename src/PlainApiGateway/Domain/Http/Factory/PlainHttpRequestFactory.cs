@@ -3,12 +3,11 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Domain.Entity.Http;
 using PlainApiGateway.Provider.Configuration;
 using PlainApiGateway.Provider.Http;
 using PlainApiGateway.Repository;
 
-namespace PlainApiGateway.Domain.Factory.Http
+namespace PlainApiGateway.Domain.Http.Factory
 {
     public sealed class PlainHttpRequestFactory : IPlainHttpRequestFactory
     {

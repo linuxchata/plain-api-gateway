@@ -1,6 +1,6 @@
 ﻿using System;
 
-using PlainApiGateway.Domain.Entity.Http;
+using PlainApiGateway.Domain.Http;
 
 namespace PlainApiGateway.Helper
 {

@@ -2,7 +2,7 @@
 
 using NUnit.Framework;
 
-using PlainApiGateway.Domain.Entity.Http;
+using PlainApiGateway.Domain.Http;
 using PlainApiGateway.Helper;
 
 namespace PlainApiGateway.UnitTests.Helper

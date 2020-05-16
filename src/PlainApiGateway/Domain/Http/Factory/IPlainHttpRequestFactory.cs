@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-using PlainApiGateway.Domain.Entity.Http;
-
-namespace PlainApiGateway.Domain.Factory.Http
+namespace PlainApiGateway.Domain.Http.Factory
 {
     public interface IPlainHttpRequestFactory
     {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
-using PlainApiGateway.Domain.Entity.Http;
+using PlainApiGateway.Domain.Http;
 using PlainApiGateway.Extension;
 
 namespace PlainApiGateway.Middleware
