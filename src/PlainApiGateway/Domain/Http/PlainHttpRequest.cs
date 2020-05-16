@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace PlainApiGateway.Domain.Http
 {
-    public sealed class PlainHttpRequest
+    public sealed class PlainHttpRequest : Entity
     {
         public Guid Id { get; set; }
 

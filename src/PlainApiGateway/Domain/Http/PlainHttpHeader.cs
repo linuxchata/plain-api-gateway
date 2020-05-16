@@ -6,7 +6,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace PlainApiGateway.Domain.Http
 {
-    public sealed class PlainHttpHeader
+    public sealed class PlainHttpHeader : Entity
     {
         public PlainHttpHeader(string key, IEnumerable<string> values)
         {

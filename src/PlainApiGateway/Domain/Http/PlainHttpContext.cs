@@ -2,7 +2,7 @@
 
 namespace PlainApiGateway.Domain.Http
 {
-    public sealed class PlainHttpContext
+    public sealed class PlainHttpContext : ValueObject
     {
         public HttpResponseMessage Response { get; private set; }
 
