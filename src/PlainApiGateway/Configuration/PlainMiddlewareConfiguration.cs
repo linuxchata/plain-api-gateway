@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 
-namespace PlainApiGateway.Middleware
+namespace PlainApiGateway.Configuration
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public sealed class PlainMiddlewareConfiguration

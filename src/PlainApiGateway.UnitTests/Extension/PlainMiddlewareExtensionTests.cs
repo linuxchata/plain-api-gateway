@@ -9,6 +9,7 @@ using Moq;
 
 using NUnit.Framework;
 
+using PlainApiGateway.Configuration;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Middleware;
 

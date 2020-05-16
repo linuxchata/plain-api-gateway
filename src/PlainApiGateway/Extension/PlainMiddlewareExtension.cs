@@ -2,6 +2,7 @@
 
 using Microsoft.AspNetCore.Builder;
 
+using PlainApiGateway.Configuration;
 using PlainApiGateway.Middleware;
 
 namespace PlainApiGateway.Extension
