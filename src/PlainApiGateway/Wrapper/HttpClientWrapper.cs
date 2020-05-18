@@ -2,7 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
@@ -35,8 +34,6 @@ namespace PlainApiGateway.Wrapper
             var client = this.CreateHttpClient(timeoutInSeconds);
 
             var requestMessage = this.CreateHttpRequestMessage(requestUrl, httpMethod, requestBodyStream, headers);
-
-            ////requestMessage.Content = new FormUrlEncodedContent();
 
             var response = await client.SendAsync(requestMessage);
 
@@ -99,7 +96,8 @@ namespace PlainApiGateway.Wrapper
             {
                 if (string.Equals(header.Key, HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
                 {
-                    requestMessage.Content.Headers.ContentType = new MediaTypeWithQualityHeaderValue(header.Value);
+                    var contentTypeValue = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(header.Value);
+                    requestMessage.Content.Headers.ContentType = contentTypeValue;
                 }
                 else if (string.Equals(header.Key, HeaderNames.ContentLength, StringComparison.OrdinalIgnoreCase))
                 {

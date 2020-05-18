@@ -89,6 +89,19 @@ namespace PlainApiGateway.TestServer.Controllers
             return this.NoContent();
         }
 
+        [HttpPost("upload")]
+        [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status204NoContent)]
+        public IActionResult Upload(IFormFile file)
+        {
+            if (file == null)
+            {
+                return this.BadRequest();
+            }
+
+            return this.NoContent();
+        }
+
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PostViewModel), StatusCodes.Status404NotFound)]
