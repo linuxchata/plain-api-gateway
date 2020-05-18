@@ -48,17 +48,17 @@ namespace PlainApiGateway.Domain.Http.Factory
             }
 
             var address = routeConfiguration.Target.Addresses.First();
+            string path = this.httpRequestPathProvider.Get(httpRequest.Path, routeConfiguration.Source.PathTemplate, routeConfiguration.Target.PathTemplate);
 
             var request = new PlainHttpRequest
             {
-                Id = Guid.NewGuid(),
-                Headers = httpRequest.Headers,
                 Method = httpRequest.Method,
                 Scheme = routeConfiguration.Target.Scheme,
                 Host = address.Host,
                 Port = address.Port,
-                Path = this.httpRequestPathProvider.Get(httpRequest.Path, routeConfiguration.Source.PathTemplate, routeConfiguration.Target.PathTemplate),
+                Path = path,
                 QueryString = httpRequest.QueryString.Value ?? string.Empty,
+                Headers = httpRequest.Headers,
                 // ReSharper disable once PossibleInvalidOperationException
                 TimeoutInSeconds = configuration.TimeoutInSeconds.Value
             };

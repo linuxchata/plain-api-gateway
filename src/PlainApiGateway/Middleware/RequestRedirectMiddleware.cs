@@ -42,6 +42,8 @@ namespace PlainApiGateway.Middleware
         {
             this.httpContext = context;
 
+            var formData = context.Request.Form;
+
             var plainHttpRequest = this.CreatePlainHttpRequest();
             if (this.IsRequestValid(plainHttpRequest))
             {

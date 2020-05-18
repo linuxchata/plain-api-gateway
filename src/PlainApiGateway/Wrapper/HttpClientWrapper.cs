@@ -36,6 +36,8 @@ namespace PlainApiGateway.Wrapper
 
             var requestMessage = this.CreateHttpRequestMessage(requestUrl, httpMethod, requestBodyStream, headers);
 
+            ////requestMessage.Content = new FormUrlEncodedContent();
+
             var response = await client.SendAsync(requestMessage);
 
             this.LogResult(requestUrl, httpMethod, response.StatusCode);

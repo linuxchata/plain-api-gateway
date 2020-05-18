@@ -6,9 +6,12 @@ namespace PlainApiGateway.Domain.Http
 {
     public sealed class PlainHttpRequest : Entity
     {
-        public Guid Id { get; set; }
+        public PlainHttpRequest()
+        {
+            this.Id = Guid.NewGuid();
+        }
 
-        public IHeaderDictionary Headers { get; set; }
+        public Guid Id { get; }
 
         public string Method { get; set; }
 
@@ -21,6 +24,8 @@ namespace PlainApiGateway.Domain.Http
         public string Path { get; set; }
 
         public string QueryString { get; set; }
+
+        public IHeaderDictionary Headers { get; set; }
 
         public ushort TimeoutInSeconds { get; set; }
     }
