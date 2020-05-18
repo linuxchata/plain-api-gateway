@@ -17,7 +17,7 @@ namespace PlainApiGateway.Handler
 
         public void SetRouteNotFoundErrorResponse(HttpContext context)
         {
-            if (context == null)
+            if (context?.Request == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
