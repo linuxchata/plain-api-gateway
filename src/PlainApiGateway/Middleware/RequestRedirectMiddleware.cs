@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
+using PlainApiGateway.Cache;
 using PlainApiGateway.Domain.Http;
 using PlainApiGateway.Domain.Http.Factory;
 using PlainApiGateway.Extension;
 using PlainApiGateway.Handler;
 using PlainApiGateway.Helper;
+using PlainApiGateway.Provider.Configuration;
 using PlainApiGateway.Wrapper;
 
 namespace PlainApiGateway.Middleware
@@ -17,6 +19,10 @@ namespace PlainApiGateway.Middleware
     public sealed class RequestRedirectMiddleware
     {
         private readonly RequestDelegate next;
+
+        private readonly IPlainConfigurationCache plainConfigurationRepository;
+
+        private readonly IPlainRouteConfigurationProvider plainRouteConfigurationProvider;
 
         private readonly IPlainHttpRequestFactory plainHttpRequestFactory;
 
@@ -28,11 +34,15 @@ namespace PlainApiGateway.Middleware
 
         public RequestRedirectMiddleware(
             RequestDelegate next,
+            IPlainConfigurationCache plainConfigurationRepository,
+            IPlainRouteConfigurationProvider plainRouteConfigurationProvider,
             IPlainHttpRequestFactory plainHttpRequestFactory,
             IHttpClientWrapper httpClientWrapper,
             ILoggerFactory logFactory)
         {
             this.next = next;
+            this.plainConfigurationRepository = plainConfigurationRepository;
+            this.plainRouteConfigurationProvider = plainRouteConfigurationProvider;
             this.plainHttpRequestFactory = plainHttpRequestFactory;
             this.httpClientWrapper = httpClientWrapper;
             this.logger = logFactory.CreateLogger<RequestRedirectMiddleware>();
@@ -58,7 +68,15 @@ namespace PlainApiGateway.Middleware
 
         private PlainHttpRequest CreatePlainHttpRequest()
         {
-            var request = this.plainHttpRequestFactory.Create(this.httpContext.Request);
+            var configuration = this.plainConfigurationRepository.Get();
+
+            var routeConfiguration = this.plainRouteConfigurationProvider.GetMatching(configuration.Routes, this.httpContext.Request);
+            if (routeConfiguration == null)
+            {
+                return null;
+            }
+
+            var request = this.plainHttpRequestFactory.Create(this.httpContext.Request, routeConfiguration, configuration.TimeoutInSeconds);
 
             return request;
         }

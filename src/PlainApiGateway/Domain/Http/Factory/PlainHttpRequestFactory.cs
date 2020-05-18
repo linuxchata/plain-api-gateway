@@ -4,51 +4,43 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-using PlainApiGateway.Cache;
-using PlainApiGateway.Provider.Configuration;
+using PlainApiGateway.Configuration;
 using PlainApiGateway.Provider.Http;
 
 namespace PlainApiGateway.Domain.Http.Factory
 {
     public sealed class PlainHttpRequestFactory : IPlainHttpRequestFactory
     {
-        private readonly IPlainConfigurationCache plainConfigurationRepository;
-
-        private readonly IPlainRouteConfigurationProvider plainRouteConfigurationProvider;
-
         private readonly IHttpRequestPathProvider httpRequestPathProvider;
 
         private readonly ILogger logger;
 
         public PlainHttpRequestFactory(
-            IPlainConfigurationCache plainConfigurationRepository,
-            IPlainRouteConfigurationProvider plainRouteConfigurationProvider,
             IHttpRequestPathProvider httpRequestPathProvider,
             ILoggerFactory logFactory)
         {
-            this.plainConfigurationRepository = plainConfigurationRepository;
-            this.plainRouteConfigurationProvider = plainRouteConfigurationProvider;
             this.httpRequestPathProvider = httpRequestPathProvider;
             this.logger = logFactory.CreateLogger<PlainHttpRequestFactory>();
         }
 
-        public PlainHttpRequest Create(HttpRequest httpRequest)
+        public PlainHttpRequest Create(HttpRequest httpRequest, PlainRouteConfiguration routeConfiguration, ushort? timeoutInSeconds)
         {
             if (httpRequest == null)
             {
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
-            var configuration = this.plainConfigurationRepository.Get();
-
-            var routeConfiguration = this.plainRouteConfigurationProvider.GetMatching(configuration.Routes, httpRequest);
             if (routeConfiguration == null)
             {
-                return null;
+                throw new ArgumentNullException(nameof(routeConfiguration));
             }
 
             var address = routeConfiguration.Target.Addresses.First();
-            string path = this.httpRequestPathProvider.Get(httpRequest.Path, routeConfiguration.Source.PathTemplate, routeConfiguration.Target.PathTemplate);
+
+            string path = this.httpRequestPathProvider.Get(
+                httpRequest.Path,
+                routeConfiguration.Source.PathTemplate,
+                routeConfiguration.Target.PathTemplate);
 
             var request = new PlainHttpRequest
             {
@@ -60,7 +52,7 @@ namespace PlainApiGateway.Domain.Http.Factory
                 QueryString = httpRequest.QueryString.Value ?? string.Empty,
                 Headers = httpRequest.Headers,
                 // ReSharper disable once PossibleInvalidOperationException
-                TimeoutInSeconds = configuration.TimeoutInSeconds.Value
+                TimeoutInSeconds = timeoutInSeconds.Value
             };
 
             this.logger.LogDebug(

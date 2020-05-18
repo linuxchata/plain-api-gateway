@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -15,6 +17,11 @@ namespace PlainApiGateway.Handler
 
         public void SetRouteNotFoundErrorResponse(HttpContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             if (!context.Response.HasStarted)
             {
                 this.logger.LogWarning(
