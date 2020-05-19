@@ -76,7 +76,15 @@ namespace PlainApiGateway.Middleware
                 return null;
             }
 
-            var request = this.plainHttpRequestFactory.Create(this.httpContext.Request, routeConfiguration, configuration.TimeoutInSeconds);
+            var httpRequest = this.httpContext.Request;
+
+            var request = this.plainHttpRequestFactory.Create(
+                httpRequest.Method,
+                httpRequest.Path,
+                httpRequest.QueryString.Value,
+                httpRequest.Headers,
+                configuration.TimeoutInSeconds,
+                routeConfiguration);
 
             return request;
         }

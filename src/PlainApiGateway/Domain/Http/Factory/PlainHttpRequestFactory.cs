@@ -23,34 +23,32 @@ namespace PlainApiGateway.Domain.Http.Factory
             this.logger = logFactory.CreateLogger<PlainHttpRequestFactory>();
         }
 
-        public PlainHttpRequest Create(HttpRequest httpRequest, PlainRouteConfiguration routeConfiguration, ushort? timeoutInSeconds)
+        public PlainHttpRequest Create(
+            string method,
+            string path,
+            string queryString,
+            IHeaderDictionary headers,
+            ushort? timeoutInSeconds,
+            PlainRouteConfiguration routeConfiguration)
         {
-            if (httpRequest == null)
-            {
-                throw new ArgumentNullException(nameof(httpRequest));
-            }
-
-            if (routeConfiguration == null)
-            {
-                throw new ArgumentNullException(nameof(routeConfiguration));
-            }
+            this.ValidateParameters(method, headers, routeConfiguration);
 
             var address = routeConfiguration.Target.Addresses.First();
 
-            string path = this.httpRequestPathProvider.Get(
-                httpRequest.Path,
+            string httpPath = this.httpRequestPathProvider.Get(
+                path,
                 routeConfiguration.Source.PathTemplate,
                 routeConfiguration.Target.PathTemplate);
 
             var request = new PlainHttpRequest
             {
-                Method = httpRequest.Method,
+                Method = method,
                 Scheme = routeConfiguration.Target.Scheme,
                 Host = address.Host,
                 Port = address.Port,
-                Path = path,
-                QueryString = httpRequest.QueryString.Value ?? string.Empty,
-                Headers = httpRequest.Headers,
+                Path = httpPath,
+                QueryString = queryString ?? string.Empty,
+                Headers = headers,
                 // ReSharper disable once PossibleInvalidOperationException
                 TimeoutInSeconds = timeoutInSeconds.Value
             };
@@ -62,6 +60,24 @@ namespace PlainApiGateway.Domain.Http.Factory
                 request.QueryString);
 
             return request;
+        }
+
+        private void ValidateParameters(string method, IHeaderDictionary headers, PlainRouteConfiguration routeConfiguration)
+        {
+            if (string.IsNullOrWhiteSpace(method))
+            {
+                throw new ArgumentNullException(nameof(method));
+            }
+
+            if (headers == null)
+            {
+                throw new ArgumentNullException(nameof(headers));
+            }
+
+            if (routeConfiguration == null)
+            {
+                throw new ArgumentNullException(nameof(routeConfiguration));
+            }
         }
     }
 }
