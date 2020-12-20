@@ -10,7 +10,7 @@ namespace PlainApiGateway.Provider.Configuration
         /// Reads plain configuration
         /// </summary>
         /// <param name="configuration">The configuration</param>
-        /// <returns>Returns plain configuration</returns>
+        /// <returns>The plain configuration</returns>
         PlainConfiguration Read(IConfiguration configuration);
     }
 }

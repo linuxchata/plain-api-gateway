@@ -20,7 +20,7 @@ namespace PlainApiGateway.Extension
         /// </summary>
         /// <param name="services">Services collection</param>
         /// <param name="configuration">The configuration</param>
-        /// <returns>Returns services collection</returns>
+        /// <returns>Services collection</returns>
         public static IServiceCollection AddPlainApiGateway(this IServiceCollection services, IConfiguration configuration)
         {
             if (services == null)

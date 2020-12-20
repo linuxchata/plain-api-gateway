@@ -15,7 +15,7 @@ namespace PlainApiGateway.Domain.Http.Factory
         /// <param name="headers">HTTP request headers</param>
         /// <param name="timeoutInSeconds">Timeout in seconds</param>
         /// <param name="routeConfiguration">Route configuration</param>
-        /// <returns>Returns plain HTTP request</returns>
+        /// <returns>The plain HTTP request</returns>
         PlainHttpRequest Create(
             string method,
             string path,

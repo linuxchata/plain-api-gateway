@@ -101,7 +101,7 @@ namespace PlainApiGateway.Middleware
 
         private async Task<HttpResponseMessage> SendHttpRequest(PlainHttpRequest plainHttpRequest)
         {
-            string requestUrl = PlainHttpRequestHelper.GetUrl(plainHttpRequest);
+            var requestUrl = PlainHttpRequestHelper.GetUrl(plainHttpRequest);
 
             var response = await this.httpClientWrapper.SendRequest(
                 requestUrl,

@@ -35,7 +35,7 @@ namespace PlainApiGateway.Domain.Http.Factory
 
             var address = routeConfiguration.Target.Addresses.First();
 
-            string httpPath = this.httpRequestPathProvider.Get(
+            var httpPath = this.httpRequestPathProvider.Get(
                 path,
                 routeConfiguration.Source.PathTemplate,
                 routeConfiguration.Target.PathTemplate);

@@ -11,7 +11,11 @@ namespace PlainApiGateway.Helper
         public static bool IsMatch(string sourcePathTemplate, PathString requestPath)
         {
             //Transforms /v{version}/post/{any} to /v(.*)/post/(.*)
-            string sourcePathTemplateRegex = Regex.Replace(sourcePathTemplate, RoutePath.VariableRegex, RoutePath.AnyCharacterRegex, RegexOptions.Compiled);
+            var sourcePathTemplateRegex = Regex.Replace(
+                sourcePathTemplate,
+                RoutePath.VariableRegex,
+                RoutePath.AnyCharacterRegex,
+                RegexOptions.Compiled);
 
             var matches = Regex.Matches(requestPath, sourcePathTemplateRegex, RegexOptions.Compiled);
 

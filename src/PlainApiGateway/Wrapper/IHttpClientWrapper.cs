@@ -16,7 +16,7 @@ namespace PlainApiGateway.Wrapper
         /// <param name="requestBodyStream">Request body</param>
         /// <param name="headers">HTTP headers</param>
         /// <param name="timeoutInSeconds">Timeout in seconds</param>
-        /// <returns>Returns HTTP response message</returns>
+        /// <returns>HTTP response message</returns>
         Task<HttpResponseMessage> SendRequest(
             string requestUrl,
             string httpMethod,

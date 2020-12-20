@@ -13,7 +13,7 @@ namespace PlainApiGateway.Provider.Configuration
         /// </summary>
         /// <param name="routes">List of route configurations</param>
         /// <param name="httpRequest">HTTP request</param>
-        /// <returns>Returns matching plain route configuration for the request</returns>
+        /// <returns>The matching plain route configuration for the request</returns>
         PlainRouteConfiguration GetMatching(List<PlainRouteConfiguration> routes, HttpRequest httpRequest);
     }
 }
