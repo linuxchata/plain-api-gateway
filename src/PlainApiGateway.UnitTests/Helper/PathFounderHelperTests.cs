@@ -7,6 +7,16 @@ namespace PlainApiGateway.UnitTests.Helper
     [TestFixture]
     public class PathFounderHelperTests
     {
+        [Test]
+        public void When_is_match_And_source_path_template_null_Then_returns_false()
+        {
+            //Act
+            var result = PathFounderHelper.IsMatch(null, "/all");
+
+            //Assert
+            Assert.That(result, Is.False);
+        }
+
         [TestCase("/all")]
         [TestCase("/all/")]
         [TestCase("/1")]

@@ -20,22 +20,20 @@ namespace PlainApiGateway.Provider.Configuration
             this.logger = logFactory.CreateLogger<PlainRouteConfigurationProvider>();
         }
 
-        public PlainRouteConfiguration GetMatching(
-            List<PlainRouteConfiguration> routes,
-            HttpRequest httpRequest)
+        public PlainRouteConfiguration GetMatching(List<PlainRouteConfiguration> routes, HttpRequest httpRequest)
         {
-            if (routes == null)
+            if (routes is null)
             {
                 throw new ArgumentNullException(nameof(routes));
             }
 
-            if (httpRequest == null)
+            if (httpRequest is null)
             {
                 throw new ArgumentNullException(nameof(httpRequest));
             }
 
             var routeConfiguration = GetRouteConfiguration(routes, httpRequest);
-            if (routeConfiguration == null)
+            if (routeConfiguration is null)
             {
                 this.logger.LogWarning(
                     "No route configuration was found for {method} request to URL {url}",

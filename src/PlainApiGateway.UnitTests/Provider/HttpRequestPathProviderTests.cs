@@ -7,7 +7,7 @@ using PlainApiGateway.Provider.Http;
 namespace PlainApiGateway.UnitTests.Provider
 {
     [TestFixture]
-    public class RequestPathProviderTests
+    public class HttpRequestPathProviderTests
     {
         private HttpRequestPathProvider sut;
 
@@ -90,6 +90,21 @@ namespace PlainApiGateway.UnitTests.Provider
 
             //Assert
             Assert.That(result, Is.EqualTo(expectedRequestPath));
+        }
+
+        [TestCase("/comment/all")]
+        [TestCase("/comment/1")]
+        [TestCase("/comment?postid=1")]
+        [TestCase("/comment")]
+        [TestCase("/comment/3")]
+        public void When_get_And_source_path_template_does_not_match_target_path_template_Then_throws_argument_exception(string httpRequestPath)
+        {
+            //Arrange
+            var sourcePathTemplate = "/post{any}";
+            var targetPathTemplate = "/post{any}";
+
+            //Act and assert
+            Assert.Throws<ArgumentException>(() => this.sut.Get(httpRequestPath, sourcePathTemplate, targetPathTemplate));
         }
     }
 }
