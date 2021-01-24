@@ -20,7 +20,7 @@ namespace PlainApiGateway.Middleware
     {
         private readonly RequestDelegate next;
 
-        private readonly IPlainConfigurationCache plainConfigurationRepository;
+        private readonly IPlainConfigurationCache plainConfigurationCache;
 
         private readonly IPlainRouteConfigurationProvider plainRouteConfigurationProvider;
 
@@ -34,14 +34,14 @@ namespace PlainApiGateway.Middleware
 
         public RequestRedirectMiddleware(
             RequestDelegate next,
-            IPlainConfigurationCache plainConfigurationRepository,
+            IPlainConfigurationCache plainConfigurationCache,
             IPlainRouteConfigurationProvider plainRouteConfigurationProvider,
             IPlainHttpRequestFactory plainHttpRequestFactory,
             IHttpClientWrapper httpClientWrapper,
             ILoggerFactory logFactory)
         {
             this.next = next;
-            this.plainConfigurationRepository = plainConfigurationRepository;
+            this.plainConfigurationCache = plainConfigurationCache;
             this.plainRouteConfigurationProvider = plainRouteConfigurationProvider;
             this.plainHttpRequestFactory = plainHttpRequestFactory;
             this.httpClientWrapper = httpClientWrapper;
@@ -68,9 +68,9 @@ namespace PlainApiGateway.Middleware
 
         private PlainHttpRequest CreatePlainHttpRequest()
         {
-            var configuration = this.plainConfigurationRepository.Get();
+            var configuration = this.plainConfigurationCache.Get();
 
-            var routeConfiguration = this.plainRouteConfigurationProvider.GetMatching(configuration.Routes, this.httpContext.Request);
+            var routeConfiguration = this.plainRouteConfigurationProvider.GetMatching(configuration?.Routes, this.httpContext.Request);
             if (routeConfiguration == null)
             {
                 return null;
@@ -83,7 +83,7 @@ namespace PlainApiGateway.Middleware
                 httpRequest.Path,
                 httpRequest.QueryString.Value,
                 httpRequest.Headers,
-                configuration.TimeoutInSeconds,
+                configuration!.TimeoutInSeconds,
                 routeConfiguration);
 
             return request;
