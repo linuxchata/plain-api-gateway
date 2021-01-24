@@ -63,8 +63,11 @@ namespace PlainApiGateway.UnitTests.Middleware
 
             this.plainConfigurationCacheMock = new Mock<IPlainConfigurationCache>();
             this.plainRouteConfigurationProviderMock = new Mock<IPlainRouteConfigurationProvider>();
+
             this.plainHttpRequestFactoryMock = new Mock<IPlainHttpRequestFactory>();
+
             this.httpClientWrapperMock = new Mock<IHttpClientWrapper>();
+
             var loggerFactory = new NullLoggerFactory();
 
             this.sut = new RequestRedirectMiddleware(
@@ -74,6 +77,28 @@ namespace PlainApiGateway.UnitTests.Middleware
                 plainHttpRequestFactoryMock.Object,
                 httpClientWrapperMock.Object,
                 loggerFactory);
+        }
+
+        [Test]
+        public void When_invoke_async_And_matching_route_not_found_Then_does_not_throw_exception()
+        {
+            //Arrange
+            var plainConfiguration = new PlainConfiguration
+            {
+                TimeoutInSeconds = 10,
+                Routes = new List<PlainRouteConfiguration> { new() }
+            };
+
+            this.plainConfigurationCacheMock.Setup(a => a.Get()).Returns(plainConfiguration);
+
+            this.plainRouteConfigurationProviderMock
+                .Setup(a => a.GetMatching(It.IsAny<List<PlainRouteConfiguration>>(), It.IsAny<HttpRequest>()))
+                .Returns((PlainRouteConfiguration)null);
+
+            //Assert
+            Assert.DoesNotThrowAsync(() => this.sut.InvokeAsync(this.context, errorHandlerMock.Object));
+
+            this.errorHandlerMock.Verify(a => a.SetRouteNotFoundErrorResponse(It.IsAny<HttpContext>()), Times.Once);
         }
 
         [Test]
@@ -124,6 +149,8 @@ namespace PlainApiGateway.UnitTests.Middleware
             //Assert
             Assert.DoesNotThrowAsync(() => this.sut.InvokeAsync(this.context, errorHandlerMock.Object));
             Assert.That(this.context.Response.StatusCode, Is.EqualTo(200));
+
+            this.errorHandlerMock.Verify(a => a.SetRouteNotFoundErrorResponse(It.IsAny<HttpContext>()), Times.Never);
         }
 
         public async Task RequestDelegate(HttpContext httpContext)
