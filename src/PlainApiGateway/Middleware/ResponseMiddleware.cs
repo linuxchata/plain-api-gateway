@@ -84,7 +84,7 @@ namespace PlainApiGateway.Middleware
 
         private async Task CopyContent()
         {
-            if (this.plainHttpContext.Response.Content == null)
+            if (!HasContent())
             {
                 return;
             }
@@ -93,6 +93,12 @@ namespace PlainApiGateway.Middleware
             {
                 await contentStream.CopyToAsync(this.httpContext.Response.Body);
             }
+        }
+
+        private bool HasContent()
+        {
+            return this.plainHttpContext.Response.Content.Headers.ContentLength.HasValue &&
+                this.plainHttpContext.Response.Content.Headers.ContentLength.Value != 0;
         }
 
         private void LogResult()

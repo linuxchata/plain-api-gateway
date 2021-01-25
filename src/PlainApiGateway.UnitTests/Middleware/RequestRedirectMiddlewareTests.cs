@@ -95,6 +95,7 @@ namespace PlainApiGateway.UnitTests.Middleware
                 .Setup(a => a.GetMatching(It.IsAny<List<PlainRouteConfiguration>>(), It.IsAny<HttpRequest>()))
                 .Returns((PlainRouteConfiguration)null);
 
+            //Act
             //Assert
             Assert.DoesNotThrowAsync(() => this.sut.InvokeAsync(this.context, errorHandlerMock.Object));
 
@@ -146,6 +147,7 @@ namespace PlainApiGateway.UnitTests.Middleware
                     It.IsNotNull<int>()))
                 .ReturnsAsync(httpResponseMessage);
 
+            //Act
             //Assert
             Assert.DoesNotThrowAsync(() => this.sut.InvokeAsync(this.context, errorHandlerMock.Object));
             Assert.That(this.context.Response.StatusCode, Is.EqualTo(200));
