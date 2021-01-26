@@ -19,9 +19,9 @@ namespace PlainApiGateway.UnitTests.Provider.Configuration
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var logFactoryMock = new NullLoggerFactory();
+            var loggerFactory = new NullLoggerFactory();
 
-            this.sut = new PlainRouteConfigurationProvider(logFactoryMock);
+            this.sut = new PlainRouteConfigurationProvider(loggerFactory);
         }
 
         [Test]
