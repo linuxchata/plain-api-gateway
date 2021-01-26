@@ -97,12 +97,18 @@ namespace PlainApiGateway.Wrapper
                 if (string.Equals(header.Key, HeaderNames.ContentType, StringComparison.OrdinalIgnoreCase))
                 {
                     var contentTypeValue = System.Net.Http.Headers.MediaTypeHeaderValue.Parse(header.Value);
-                    requestMessage.Content.Headers.ContentType = contentTypeValue;
+                    if (requestMessage.Content != null)
+                    {
+                        requestMessage.Content.Headers.ContentType = contentTypeValue;
+                    }
                 }
                 else if (string.Equals(header.Key, HeaderNames.ContentLength, StringComparison.OrdinalIgnoreCase))
                 {
-                    long contentLengthValue = Convert.ToInt64(header.Value.ToString());
-                    requestMessage.Content.Headers.ContentLength = contentLengthValue;
+                    var contentLengthValue = Convert.ToInt64(header.Value.ToString());
+                    if (requestMessage.Content != null)
+                    {
+                        requestMessage.Content.Headers.ContentLength = contentLengthValue;
+                    }
                 }
                 else
                 {
