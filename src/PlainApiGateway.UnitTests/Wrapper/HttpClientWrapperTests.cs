@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Net.Http.Headers;
 
 using Moq;
 using Moq.Protected;
@@ -21,7 +23,9 @@ namespace PlainApiGateway.UnitTests.Wrapper
     {
         private const string RequestUrl = "https://example.com";
 
-        private const string HttpMethod = "GET";
+        private const string HttpGetMethod = "GET";
+
+        private const string HttpPostMethod = "POST";
 
         private const int TimeoutInSeconds = 5;
 
@@ -47,7 +51,7 @@ namespace PlainApiGateway.UnitTests.Wrapper
             //Act
             //Assert
             Assert.ThrowsAsync<ArgumentNullException>(
-                () => this.sut.SendRequest(requestUrl, HttpMethod, null, new HeaderDictionary(), TimeoutInSeconds));
+                () => this.sut.SendRequest(requestUrl, HttpGetMethod, null, new HeaderDictionary(), TimeoutInSeconds));
         }
 
         [TestCase(null)]
@@ -67,11 +71,11 @@ namespace PlainApiGateway.UnitTests.Wrapper
             //Act
             //Assert
             Assert.ThrowsAsync<ArgumentNullException>(
-                () => this.sut.SendRequest(RequestUrl, HttpMethod, null, null, TimeoutInSeconds));
+                () => this.sut.SendRequest(RequestUrl, HttpGetMethod, null, null, TimeoutInSeconds));
         }
 
         [Test]
-        public async Task When_send_request_Then_returns_response()
+        public async Task When_send_request_And_request_body_empty_Then_returns_response()
         {
             //Arrange
             var clientHandlerMock = new Mock<DelegatingHandler>();
@@ -85,8 +89,42 @@ namespace PlainApiGateway.UnitTests.Wrapper
 
             this.httpClientFactoryMock.Setup(a => a.CreateClient(It.IsAny<string>())).Returns(client);
 
+            var headers = new HeaderDictionary
+            {
+                { HeaderNames.Accept, MediaTypeNames.Application.Json }
+            };
+
             //Act
-            var response = await this.sut.SendRequest(RequestUrl, HttpMethod, null, new HeaderDictionary(), TimeoutInSeconds);
+            var response = await this.sut.SendRequest(RequestUrl, HttpGetMethod, null, headers, TimeoutInSeconds);
+
+            //Assert
+            Assert.That(response, Is.Not.Null);
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        }
+
+        [Test]
+        public async Task When_send_request_And_request_body_not_empty_Then_returns_response()
+        {
+            //Arrange
+            var clientHandlerMock = new Mock<DelegatingHandler>();
+            clientHandlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK));
+            clientHandlerMock.As<IDisposable>().Setup(a => a.Dispose());
+
+            var client = new HttpClient(clientHandlerMock.Object);
+
+            this.httpClientFactoryMock.Setup(a => a.CreateClient(It.IsAny<string>())).Returns(client);
+
+            var requestBody = new StringContent("{ \"parameter\": \"value\" }");
+            var requestBodyStream = await requestBody.ReadAsStreamAsync();
+
+            var headers = new HeaderDictionary { ContentLength = requestBodyStream.Length };
+            headers.Add(HeaderNames.ContentType, MediaTypeNames.Application.Json);
+
+            //Act
+            var response = await this.sut.SendRequest(RequestUrl, HttpPostMethod, requestBodyStream, headers, TimeoutInSeconds);
 
             //Assert
             Assert.That(response, Is.Not.Null);
