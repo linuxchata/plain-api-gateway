@@ -1,5 +1,5 @@
 ## Plain API Gateway 
-Plain API gateway is simple .NET Core API Gateway that helps agreegate different endpoints in applications with micro-services architecture
+Plain API gateway is simple .NET Core API Gateway that helps aggregate different endpoints in applications with micro-services architecture
 
 ## Packages
 ...
