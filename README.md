@@ -1,7 +1,11 @@
 ## Plain API gateway 
 Plain API gateway is simple .NET Core API Gateway that helps agreegate different endpoints in applications with micro-services architecture
 
-### Build Status
+## Packages
+
+## Installation
+
+## Project Info
 | Build server | Target       | Status      |
 |--------------|--------------|-------------|
 | GitHub       | CI           | ![CI](https://github.com/linuxchata/plain-api-gateway/workflows/CI/badge.svg) |
