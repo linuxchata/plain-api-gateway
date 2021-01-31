@@ -2,9 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Authors>LinuxChata</Authors>
+    <Version>0.0.1</Version>
+    <Company>LinuxChata</Company>
+    <Description>Plain API gateway is simple .NET Core API Gateway that helps aggregate different endpoints in applications with micro-services architecture</Description>
+    <PackageTags>api-gateway</PackageTags>
+    <RepositoryUrl>https://github.com/linuxchata/plain-api-gateway</RepositoryUrl>
+    <Product>Plain API gateway is simple .NET Core API Gateway</Product>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 </Project>
