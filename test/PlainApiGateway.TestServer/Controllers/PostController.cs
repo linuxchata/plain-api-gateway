@@ -12,7 +12,7 @@ namespace PlainApiGateway.TestServer.Controllers
     [ApiController]
     public sealed class PostController : ControllerBase
     {
-        private static readonly List<PostViewModel> Posts = new List<PostViewModel>
+        private static readonly List<PostViewModel> Posts = new()
         {
             new PostViewModel
             {

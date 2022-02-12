@@ -24,7 +24,7 @@ namespace PlainApiGateway.UnitTests.Extension
 
         private const int ResponseMiddlewareIndex = 3;
 
-        private readonly List<string> requiredMiddlewares = new List<string>
+        private readonly List<string> requiredMiddlewares = new()
         {
             typeof(RequestRedirectMiddleware).FullName,
             typeof(ResponseMiddleware).FullName,

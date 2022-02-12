@@ -77,7 +77,7 @@ namespace PlainApiGateway.UnitTests.Middleware
             Assert.That(this.context.Response.ContentLength, Is.EqualTo(16));
         }
 
-        public async Task RequestDelegate(HttpContext httpContext)
+        private async Task RequestDelegate(HttpContext httpContext)
         {
             await Task.CompletedTask;
         }

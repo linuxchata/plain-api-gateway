@@ -89,10 +89,8 @@ namespace PlainApiGateway.Middleware
                 return;
             }
 
-            using (var contentStream = await this.plainHttpContext.Response.Content.ReadAsStreamAsync())
-            {
-                await contentStream.CopyToAsync(this.httpContext.Response.Body);
-            }
+            using var contentStream = await this.plainHttpContext.Response.Content.ReadAsStreamAsync();
+            await contentStream.CopyToAsync(this.httpContext.Response.Body);
         }
 
         private bool HasContent()
